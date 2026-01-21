@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+            stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.controllers.AyudaController">
+
+   <content>
+      <VBox spacing="20.0" style="-fx-background-color: white;">
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+         <children>
+            <!-- Encabezado -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+               <children>
+                  <FontIcon iconLiteral="mdi-help-circle" iconSize="40" iconColor="#2E7D32" />
+                  <Label text="Centro de Ayuda" textFill="#2E7D32">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+
+            <Label text="Bienvenido al Centro de Ayuda de GranaTour. Aquí encontrarás toda la información necesaria para utilizar la aplicación." textFill="#666666" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+
+            <Separator prefWidth="200.0" style="-fx-background-color: #E0E0E0;" />
+
+            <!-- SECCIÓN: Manual de Usuario -->
+            <VBox spacing="15.0">
+               <children>
+                  <HBox spacing="10.0" alignment="CENTER_LEFT">
+                     <children>
+                        <FontIcon iconLiteral="mdi-book-open-variant" iconSize="24" iconColor="#424242" />
+                        <Label text="Manual de Usuario" textFill="#424242">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+
+                  <!-- Módulo Usuarios -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <HBox spacing="8.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-account" iconSize="18" iconColor="#4CAF50" />
+                              <Label text="Módulo de Usuarios" textFill="#4CAF50">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="Este módulo te permite gestionar todos los usuarios del sistema (clientes, guías y administradores)." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Buscar usuarios: Utiliza la barra de búsqueda para filtrar por nombre, email o DNI." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Añadir usuarios: Haz clic en el botón 'Añadir' para crear un nuevo usuario con sus datos personales." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Editar usuarios: Selecciona un usuario de la tabla y haz clic en 'Editar' para modificar su información." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Eliminar usuarios: Selecciona un usuario y haz clic en 'Eliminar' para borrar su registro de la base de datos." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+
+                  <!-- Módulo Excursiones -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <HBox spacing="8.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-nature" iconSize="18" iconColor="#4CAF50" />
+                              <Label text="Módulo de Excursiones" textFill="#4CAF50">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="Gestiona las rutas y excursiones turísticas disponibles en GranaTour." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Ver excursiones: Consulta todas las rutas disponibles con su información detallada (zona, duración, precio)." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Crear excursiones: Añade nuevas rutas especificando nombre, zona, duración, precio y plazas disponibles." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Asignar guías: Puedes asignar guías específicos a cada excursión desde el módulo de edición." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Modificar excursiones: Actualiza información de rutas existentes como fechas, precios o disponibilidad." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+
+                  <!-- Módulo Reservas -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <HBox spacing="8.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-calendar-check" iconSize="18" iconColor="#4CAF50" />
+                              <Label text="Módulo de Reservas" textFill="#4CAF50">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="Administra las reservas realizadas por los clientes para las diferentes excursiones." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Consultar reservas: Visualiza todas las reservas con información del cliente, excursión y estado." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Nueva reserva: Crea reservas asociando un cliente a una excursión disponible." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Estados de reserva: Las reservas pueden estar en estado 'Pendiente', 'Confirmada' o 'Cancelada'." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label text="• Gestionar estado: Cambia el estado de las reservas según el proceso de confirmación o cancelación." textFill="#666666" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <Separator prefWidth="200.0" style="-fx-background-color: #E0E0E0;" />
+
+            <!-- SECCIÓN: Atajos de Teclado -->
+            <VBox spacing="15.0">
+               <children>
+                  <HBox spacing="10.0" alignment="CENTER_LEFT">
+                     <children>
+                        <FontIcon iconLiteral="mdi-keyboard" iconSize="24" iconColor="#424242" />
+                        <Label text="Atajos de Teclado" textFill="#424242">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+
+                  <Label text="Utiliza los siguientes atajos de teclado para navegar rápidamente entre las diferentes secciones de la aplicación:" textFill="#666666" wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+
+                  <VBox spacing="10.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <!-- Alt+1 -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + 1" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Ir al módulo de Usuarios" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Alt+2 -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + 2" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Ir al módulo de Excursiones" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Alt+3 -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + 3" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Ir al módulo de Reservas" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Alt+4 -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + 4" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Ir al módulo de Ayuda" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <Label text="Nota: También puedes usar el teclado numérico (Numpad 1-4) junto con Alt." textFill="#999999" wrapText="true">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+
+            <Separator prefWidth="200.0" style="-fx-background-color: #E0E0E0;" />
+
+            <!-- SECCIÓN: Información de Contacto -->
+            <VBox spacing="15.0">
+               <children>
+                  <HBox spacing="10.0" alignment="CENTER_LEFT">
+                     <children>
+                        <FontIcon iconLiteral="mdi-phone" iconSize="24" iconColor="#424242" />
+                        <Label text="Información de Contacto" textFill="#424242">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+
+                  <Label text="Si necesitas ayuda adicional o tienes alguna consulta, puedes contactarnos a través de los siguientes medios:" textFill="#666666" wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+
+                  <VBox spacing="10.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <!-- Email -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-email" iconSize="16" iconColor="#424242" />
+                              <Label text="Email:" textFill="#424242">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="soporte@granatour.com" textFill="#4CAF50">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Teléfono -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-phone" iconSize="16" iconColor="#424242" />
+                              <Label text="Teléfono:" textFill="#424242">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="+34 666 777 888" textFill="#666666">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Dirección -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-map-marker" iconSize="16" iconColor="#424242" />
+                              <Label text="Dirección:" textFill="#424242">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Calle Alcrameson, 99 - 18183 Huetor Santillan, España" textFill="#666666">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+
+                        <!-- Horario -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <FontIcon iconLiteral="mdi-clock" iconSize="16" iconColor="#424242" />
+                              <Label text="Horario:" textFill="#424242">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Lunes a Viernes: 9:00 - 18:00" textFill="#666666">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+
+            <Separator prefWidth="200.0" style="-fx-background-color: #E0E0E0;" />
+
+            <!-- Footer -->
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="GranaTour v1.0 - 2025" textFill="#999999">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="© Todos los derechos reservados" textFill="#999999">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

@@ -6,18 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
+            "name": "Launcher",
             "request": "launch",
-            "mainClass": "${file}",
-            "vmArgs": "--module-path C:\\javafx-sdk-25\\lib --add-modules javafx.base,javafx.controls --enable-native-access=javafx.graphics",
+            "mainClass": "app.granatour.Launcher",
             "projectName": "app"
         },
         {
             "type": "java",
-            "name": "PlantillaFX-Launch",
+            "name": "GranaTour",
             "request": "launch",
-            "mainClass": "tema2.proyectobase.PlantillaFX",
-            "vmArgs": "--module-path C:\\javafx-sdk-25\\lib --add-modules javafx.base,javafx.controls --enable-native-access=javafx.graphics",
+            "mainClass": "app.granatour.Main",
+            "vmArgs": "--module-path C:\\javafx-sdk-25\\lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics --enable-native-access=javafx.graphics",
             "projectName": "app"
         }
     ]

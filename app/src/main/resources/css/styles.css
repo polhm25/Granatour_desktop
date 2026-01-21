@@ -1,0 +1,444 @@
+/* ============================================
+ * VARIABLES DE COLOR (Paleta Verde)
+ * ============================================ */
+.root {
+    /* Colores Principales */
+    -primary: #4CAF50;
+    -primary-dark: #388E3C;
+    -primary-light: #C8E6C9;
+    -primary-variant: #2E7D32;
+
+    /* Colores Secundarios */
+    -secondary: #81C784;
+    -accent: #FFC107;
+
+    /* Fondos */
+    -background: #FAFAFA;
+    -surface: #FFFFFF;
+    -surface-variant: #F5F5F5;
+
+    /* Textos */
+    -text-primary: #212121;
+    -text-secondary: #757575;
+    -text-disabled: #BDBDBD;
+    -text-on-primary: #FFFFFF;
+
+    /* Bordes y Divisores */
+    -divider: #E0E0E0;
+    -border-color: #CCCCCC;
+
+    /* Estados */
+    -error: #D32F2F;
+    -success: #4CAF50;
+    -warning: #FF9800;
+    -info: #2196F3;
+}
+
+/* Estilos base generales */
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: -background;
+}
+
+/* ============================================
+ * BOTONES - MATERIAL DESIGN
+ * ============================================ */
+
+/* Botón Principal (Primary) */
+.button-primary,
+.button:default {
+    -fx-background-color: -primary;
+    -fx-text-fill: -text-on-primary;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
+}
+
+.button-primary:hover,
+.button:default:hover {
+    -fx-background-color: -primary-dark;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 4);
+}
+
+.button-primary:pressed,
+.button:default:pressed {
+    -fx-background-color: -primary-variant;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 2, 0, 0, 1);
+}
+
+/* Botón Secundario */
+.button-secondary {
+    -fx-background-color: -surface;
+    -fx-text-fill: -primary;
+    -fx-border-color: -primary;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: -primary-light;
+}
+
+/* Botón de Salir/Cancelar */
+.button-cancel {
+    -fx-background-color: #757575;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
+}
+
+.button-cancel:hover {
+    -fx-background-color: #616161;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 4);
+}
+
+/* Botón de Error/Eliminar */
+.button-danger {
+    -fx-background-color: -error;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
+}
+
+.button-danger:hover {
+    -fx-background-color: #C62828;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 4);
+}
+
+/* Botones de Iconos (Navegación) */
+.icon-button {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+.icon-button:hover {
+    -fx-background-color: -primary-light;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
+}
+
+.icon-button:pressed {
+    -fx-background-color: -primary;
+}
+
+/* ============================================
+ * CAMPOS DE TEXTO - MATERIAL DESIGN
+ * ============================================ */
+.text-field,
+.password-field {
+    -fx-background-color: -surface;
+    -fx-background-radius: 4;
+    -fx-border-color: -border-color;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: -text-primary;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: -primary;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.3), 4, 0, 0, 0);
+}
+
+.text-field:disabled,
+.password-field:disabled {
+    -fx-opacity: 0.6;
+}
+
+/* Text Area */
+.text-area {
+    -fx-background-color: -surface;
+    -fx-background-radius: 4;
+    -fx-border-color: -border-color;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+.text-area:focused {
+    -fx-border-color: -primary;
+    -fx-border-width: 2;
+}
+
+.text-area .content {
+    -fx-background-color: -surface;
+}
+
+/* ============================================
+ * TABLAS - MATERIAL DESIGN
+ * ============================================ */
+.table-view {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -primary-light;
+}
+
+.table-view .column-header {
+    -fx-background-color: -primary-light;
+    -fx-text-fill: -text-primary;
+    -fx-font-weight: bold;
+    -fx-border-color: -divider;
+    -fx-border-width: 0 0 2 0;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8 10 8 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: -text-primary;
+}
+
+.table-row-cell {
+    -fx-background-color: -surface;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -surface-variant;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -primary-light;
+    -fx-text-fill: -text-primary;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: derive(-primary-light, 20%);
+}
+
+/* ============================================
+ * CARDS Y PANELES
+ * ============================================ */
+.card {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0, 0, 2);
+}
+
+.card-elevated {
+    -fx-background-color: -surface;
+    -fx-background-radius: 8;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 4);
+}
+
+/* ============================================
+ * HEADER / NAVBAR
+ * ============================================ */
+.header {
+    -fx-background-color: -primary;
+    -fx-padding: 15;
+}
+
+.header .label {
+    -fx-text-fill: -text-on-primary;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+
+.navbar {
+    -fx-background-color: -surface-variant;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
+}
+
+/* ============================================
+ * TABS
+ * ============================================ */
+.tab-pane {
+    -fx-background-color: -background;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: -surface-variant;
+}
+
+.tab {
+    -fx-background-color: -surface-variant;
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 10 20 10 20;
+}
+
+.tab:selected {
+    -fx-background-color: -surface;
+    -fx-border-color: -primary;
+    -fx-border-width: 0 0 3 0;
+}
+
+.tab .tab-label {
+    -fx-text-fill: -text-secondary;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: -primary;
+}
+
+.tab:hover {
+    -fx-background-color: derive(-surface-variant, -5%);
+}
+
+/* ============================================
+ * SEPARADORES
+ * ============================================ */
+.separator {
+    -fx-background-color: -divider;
+}
+
+.separator .line {
+    -fx-background-color: -divider;
+    -fx-border-color: -divider;
+}
+
+/* ============================================
+ * SCROLL PANE
+ * ============================================ */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -text-disabled;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: -text-secondary;
+}
+
+/* ============================================
+ * LABELS Y TEXTOS
+ * ============================================ */
+.label {
+    -fx-text-fill: -text-primary;
+}
+
+.label-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-primary;
+}
+
+.label-subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-secondary;
+}
+
+.label-secondary {
+    -fx-text-fill: -text-secondary;
+}
+
+.label-error {
+    -fx-text-fill: -error;
+    -fx-font-weight: bold;
+}
+
+.label-success {
+    -fx-text-fill: -success;
+    -fx-font-weight: bold;
+}
+
+/* ============================================
+ * COMBO BOX
+ * ============================================ */
+.combo-box {
+    -fx-background-color: -surface;
+    -fx-background-radius: 4;
+    -fx-border-color: -border-color;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+}
+
+.combo-box:focused {
+    -fx-border-color: -primary;
+    -fx-border-width: 2;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -text-primary;
+}
+
+/* ============================================
+ * CHECK BOX Y RADIO BUTTON
+ * ============================================ */
+.check-box {
+    -fx-text-fill: -text-primary;
+}
+
+.check-box .box {
+    -fx-background-color: -surface;
+    -fx-border-color: -border-color;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -primary;
+}
+
+.radio-button {
+    -fx-text-fill: -text-primary;
+}
+
+.radio-button .radio {
+    -fx-background-color: -surface;
+    -fx-border-color: -border-color;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: -primary;
+}
+
+/* ============================================
+ * TOOLTIP
+ * ============================================ */
+.tooltip {
+    -fx-background-color: #424242;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+    -fx-padding: 8;
+    -fx-font-size: 12px;
+}
+
+/* ============================================
+ * ESPECÍFICO: LOGIN
+ * ============================================ */
+.login-container {
+    -fx-background-color: linear-gradient(to bottom, -primary, -primary-dark);
+}
+
+.login-panel {
+    -fx-background-color: -surface;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+}
