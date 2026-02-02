@@ -63,7 +63,19 @@ public class DatabaseConnection {
     public Connection getConnection() {
         return connection;
     }
-    
+
+    /**
+     * Verifica si hay una conexión activa con la base de datos.
+     * @return true si la conexión está activa, false en caso contrario
+     */
+    public boolean isConnected() {
+        try {
+            return connection != null && !connection.isClosed() && connection.isValid(5);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     // Cierra la conexión a la base de datos
     public void closeConnection() {
         if (connection != null) {

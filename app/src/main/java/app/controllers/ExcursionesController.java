@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.granatour.crud.ExcursionCRUD;
+import app.granatour.session.SessionManager;
 import app.utils.AlertUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -61,8 +62,6 @@ public class ExcursionesController implements Initializable {
     @FXML
     private Button eliminarButton;
     @FXML
-    private Button actualizarButton;
-    @FXML
     private Button generarInformeButton;
 
     // Instancia del CRUD para realizar operaciones con la base de datos
@@ -78,6 +77,9 @@ public class ExcursionesController implements Initializable {
 
         // Configura las acciones de los botones
         setupButtonActions();
+
+        // Aplica restricciones de acceso según el rol del usuario
+        aplicarRestriccionesPorRol();
 
         // Carga los datos de excursiones desde la base de datos
         loadExcursionesData();
@@ -102,7 +104,6 @@ public class ExcursionesController implements Initializable {
         añadirButton.setOnAction(event -> handleAñadir());
         editarButton.setOnAction(event -> handleEditar());
         eliminarButton.setOnAction(event -> handleEliminar());
-        actualizarButton.setOnAction(event -> handleActualizar());
         generarInformeButton.setOnAction(event -> handleGenerarInforme());
     }
 
@@ -205,12 +206,6 @@ public class ExcursionesController implements Initializable {
         }
     }
 
-    private void handleActualizar() {
-        System.out.println("Actualizar tabla de excursiones");
-        searchField.clear();
-        loadExcursionesData();
-    }
-
     private void showAlert(Alert.AlertType type, String title, String message) {
         AlertUtils.showAlert(type, title, message);
     }
@@ -245,6 +240,29 @@ public class ExcursionesController implements Initializable {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error",
                     "Error inesperado: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Aplica restricciones de acceso a los botones CRUD según el rol del usuario.
+     * - Admin: Acceso completo (añadir, editar, eliminar)
+     * - Guía y Cliente: Solo lectura (oculta botones de añadir, editar, eliminar)
+     */
+    private void aplicarRestriccionesPorRol() {
+        SessionManager session = SessionManager.getInstance();
+
+        if (session.isCliente() || session.isGuia()) {
+            // Ocultar botones de CRUD para clientes y guías
+            añadirButton.setVisible(false);
+            añadirButton.setManaged(false);
+
+            editarButton.setVisible(false);
+            editarButton.setManaged(false);
+
+            eliminarButton.setVisible(false);
+            eliminarButton.setManaged(false);
+
+            System.out.println("Restricciones aplicadas en Excursiones: Solo lectura para rol " + session.getRol());
         }
     }
 }

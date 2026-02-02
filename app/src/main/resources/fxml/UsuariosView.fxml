@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,7 +18,9 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
             <TextField fx:id="searchField" prefWidth="300.0" promptText="Buscar por DNI, nombre, email..." />
-            <Button fx:id="buscarButton" mnemonicParsing="false" text="🔍 Buscar" />
+            <Button fx:id="buscarButton" mnemonicParsing="true" text="🔍 _Buscar">
+               <tooltip><Tooltip text="Buscar usuarios por nombre, email o DNI (Alt+B)" /></tooltip>
+            </Button>
          </children>
       </HBox>
       
@@ -39,10 +42,15 @@
             <Insets top="10.0" />
          </padding>
          <children>
-            <Button fx:id="añadirButton" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ Añadir" />
-            <Button fx:id="editarButton" mnemonicParsing="false" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ Editar" />
-            <Button fx:id="eliminarButton" mnemonicParsing="false" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 Eliminar" />
-            <Button fx:id="actualizarButton" mnemonicParsing="false" text="🔄 Actualizar" />
+            <Button fx:id="añadirButton" mnemonicParsing="true" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ _Añadir">
+               <tooltip><Tooltip text="Añadir nuevo usuario (Alt+A)" /></tooltip>
+            </Button>
+            <Button fx:id="editarButton" mnemonicParsing="true" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ _Editar">
+               <tooltip><Tooltip text="Editar usuario seleccionado (Alt+E)" /></tooltip>
+            </Button>
+            <Button fx:id="eliminarButton" mnemonicParsing="true" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 E_liminar">
+               <tooltip><Tooltip text="Eliminar usuario seleccionado (Alt+L)" /></tooltip>
+            </Button>
          </children>
       </HBox>
    </children>

@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.granatour.crud.ReservaCRUD;
+import app.granatour.session.SessionManager;
 import app.utils.AlertUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,8 +59,6 @@ public class ReservasController implements Initializable {
     private Button editarButton;
     @FXML
     private Button eliminarButton;
-    @FXML
-    private Button actualizarButton;
 
     // Componentes para generación de informes
     @FXML
@@ -83,6 +82,9 @@ public class ReservasController implements Initializable {
 
         // Configura las acciones de los botones
         setupButtonActions();
+
+        // Aplica restricciones de acceso según el rol del usuario
+        aplicarRestriccionesPorRol();
 
         // Carga los datos de reservas desde la base de datos
         loadReservasData();
@@ -119,15 +121,26 @@ public class ReservasController implements Initializable {
         añadirButton.setOnAction(event -> handleAñadir());
         editarButton.setOnAction(event -> handleEditar());
         eliminarButton.setOnAction(event -> handleEliminar());
-        actualizarButton.setOnAction(event -> handleActualizar());
         generarInformeButton.setOnAction(event -> handleGenerarInforme());
     }
 
     private void loadReservasData() {
         try {
-            ObservableList<Reserva> reservas = reservaCRUD.getAllReservas();
+            ObservableList<Reserva> reservas;
+            SessionManager session = SessionManager.getInstance();
+
+            if (session.isCliente()) {
+                // Clientes solo ven sus propias reservas
+                int idUsuario = session.getIdUsuario();
+                reservas = reservaCRUD.getReservasPorUsuario(idUsuario);
+                System.out.println("Datos de reservas del cliente ID " + idUsuario + " cargados en tabla");
+            } else {
+                // Admin y Guía ven todas las reservas
+                reservas = reservaCRUD.getAllReservas();
+                System.out.println("Datos de todas las reservas cargados en tabla");
+            }
+
             reservasTable.setItems(reservas);
-            System.out.println("Datos de reservas cargados en tabla");
         } catch (Exception e) {
             System.err.println("Error al cargar datos de reservas: " + e.getMessage());
             e.printStackTrace();
@@ -222,12 +235,6 @@ public class ReservasController implements Initializable {
         }
     }
 
-    private void handleActualizar() {
-        System.out.println("Actualizar tabla de reservas");
-        searchField.clear();
-        loadReservasData();
-    }
-
     private void showAlert(Alert.AlertType type, String title, String message) {
         AlertUtils.showAlert(type, title, message);
     }
@@ -275,5 +282,47 @@ public class ReservasController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error",
                     "Error inesperado: " + e.getMessage());
         }
+    }
+
+    /**
+     * Aplica restricciones de acceso a los botones CRUD según el rol del usuario.
+     * - Admin: Acceso completo (añadir, editar, eliminar cualquier reserva)
+     * - Guía: Solo lectura (ve todas las reservas pero no puede modificarlas)
+     * - Cliente: Solo sus reservas (puede añadir, editar y eliminar sus propias reservas)
+     */
+    private void aplicarRestriccionesPorRol() {
+        SessionManager session = SessionManager.getInstance();
+
+        if (session.isGuia()) {
+            // Guía: solo lectura, ocultar todos los botones CRUD
+            añadirButton.setVisible(false);
+            añadirButton.setManaged(false);
+
+            editarButton.setVisible(false);
+            editarButton.setManaged(false);
+
+            eliminarButton.setVisible(false);
+            eliminarButton.setManaged(false);
+
+            // Ocultar generación de informes para guías
+            estadoInformeComboBox.setVisible(false);
+            estadoInformeComboBox.setManaged(false);
+            generarInformeButton.setVisible(false);
+            generarInformeButton.setManaged(false);
+
+            System.out.println("Restricciones aplicadas en Reservas: Solo lectura para rol guia");
+        } else if (session.isCliente()) {
+            // Cliente: puede gestionar sus propias reservas
+            // Los botones se mantienen visibles ya que solo ve sus reservas
+
+            // Ocultar generación de informes para clientes
+            estadoInformeComboBox.setVisible(false);
+            estadoInformeComboBox.setManaged(false);
+            generarInformeButton.setVisible(false);
+            generarInformeButton.setManaged(false);
+
+            System.out.println("Restricciones aplicadas en Reservas: Cliente solo ve sus reservas");
+        }
+        // Admin: sin restricciones, acceso completo
     }
 }

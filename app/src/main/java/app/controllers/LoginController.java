@@ -50,6 +50,21 @@ public class LoginController implements Initializable {
         // Agregar listeners para ocultar error cuando el usuario empiece a escribir
         emailField.textProperty().addListener((observable, oldValue, newValue) -> errorLabel.setVisible(false));
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> errorLabel.setVisible(false));
+
+        // Verificar conexión a base de datos al iniciar
+        verificarConexionBaseDatos();
+    }
+
+    /**
+     * Verifica si hay conexión con la base de datos y muestra un mensaje si no la hay.
+     */
+    private void verificarConexionBaseDatos() {
+        DatabaseConnection dbConnection = DatabaseConnection.getInstance();
+        if (!dbConnection.isConnected()) {
+            mostrarError("No hay conexión con la base de datos. Verifique la configuración.");
+            loginButton.setDisable(true);
+            System.err.println("✗ No se pudo establecer conexión con la base de datos");
+        }
     }
 
     /**

@@ -20,17 +20,22 @@ import javafx.util.StringConverter;
 import models.Excursion;
 import models.Reserva;
 import models.Usuario;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.validation.ValidationSupport;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AnadirReservaController implements Initializable {
 
     @FXML
-    private ComboBox<Usuario> clienteComboBox;
+    private TextField clienteSearchField;
     @FXML
     private ComboBox<Excursion> excursionComboBox;
     @FXML
@@ -51,6 +56,11 @@ public class AnadirReservaController implements Initializable {
     private ValidationSupport validationSupport;
 
     private Double precioPorPersona = 0.0;
+
+    // Mapa para relacionar el texto mostrado con el objeto Usuario
+    private Map<String, Usuario> clientesMap = new HashMap<>();
+    private Usuario clienteSeleccionado = null;
+    private List<Usuario> todosLosClientes;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,24 +107,8 @@ public class AnadirReservaController implements Initializable {
     }
 
     private void setupComboBoxes() {
-        // Cargar clientes
-        List<Usuario> usuarios = usuarioCRUD.obtenerTodos();
-        for (Usuario usuario : usuarios) {
-            // Idealmente filtrar por rol 'cliente' o 'usuario'
-            clienteComboBox.getItems().add(usuario);
-        }
-
-        clienteComboBox.setConverter(new StringConverter<Usuario>() {
-            @Override
-            public String toString(Usuario usuario) {
-                return usuario != null ? usuario.getNombreCompleto() : "";
-            }
-
-            @Override
-            public Usuario fromString(String string) {
-                return null;
-            }
-        });
+        // Cargar clientes y configurar autocompletado
+        setupClienteAutoComplete();
 
         // Cargar excursiones
         List<Excursion> excursiones = excursionCRUD.getAllExcursiones();
@@ -137,9 +131,59 @@ public class AnadirReservaController implements Initializable {
         estadoComboBox.getSelectionModel().select("pendiente");
     }
 
+    /**
+     * Configura el campo de búsqueda de cliente con autocompletado.
+     * Permite buscar por nombre completo o DNI.
+     */
+    private void setupClienteAutoComplete() {
+        todosLosClientes = usuarioCRUD.obtenerTodos();
+
+        // Crear mapa de texto -> Usuario para búsqueda rápida
+        for (Usuario usuario : todosLosClientes) {
+            // Formato: "Nombre Completo - DNI"
+            String displayText = usuario.getNombreCompleto() + " - " + usuario.getDni();
+            clientesMap.put(displayText, usuario);
+        }
+
+        // Configurar autocompletado con ControlsFX
+        AutoCompletionBinding<String> autoCompletion = TextFields.bindAutoCompletion(
+                clienteSearchField,
+                request -> {
+                    String userText = request.getUserText().toLowerCase();
+                    return clientesMap.keySet().stream()
+                            .filter(item -> item.toLowerCase().contains(userText))
+                            .collect(Collectors.toList());
+                });
+
+        // Cuando el usuario selecciona una sugerencia
+        autoCompletion.setOnAutoCompleted(event -> {
+            String selectedText = event.getCompletion();
+            clienteSeleccionado = clientesMap.get(selectedText);
+            if (clienteSeleccionado != null) {
+                System.out.println("Cliente seleccionado: " + clienteSeleccionado.getNombreCompleto());
+            }
+        });
+
+        // Listener para detectar cuando el usuario borra o cambia el texto manualmente
+        clienteSearchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                // Verificar si el texto coincide exactamente con un cliente del mapa
+                if (clientesMap.containsKey(newVal)) {
+                    clienteSeleccionado = clientesMap.get(newVal);
+                } else {
+                    // El texto no coincide exactamente, puede estar escribiendo
+                    // No invalidamos todavía el cliente seleccionado si tenía uno
+                }
+            } else {
+                clienteSeleccionado = null;
+            }
+        });
+    }
+
     private void setupValidadores() {
-        validationSupport.registerValidator(clienteComboBox,
-                ValidadorCampos.comboBoxNoNulo("Cliente"));
+        // Validador para el campo de búsqueda de cliente (no vacío)
+        validationSupport.registerValidator(clienteSearchField,
+                ValidadorCampos.noVacio("Cliente"));
 
         validationSupport.registerValidator(excursionComboBox,
                 ValidadorCampos.comboBoxNoNulo("Excursión"));
@@ -186,8 +230,20 @@ public class AnadirReservaController implements Initializable {
     }
 
     private void handleGuardar() {
+        // Validar que se haya seleccionado un cliente válido
+        if (clienteSeleccionado == null) {
+            // Intentar buscar el cliente por el texto ingresado
+            String textoIngresado = clienteSearchField.getText();
+            if (clientesMap.containsKey(textoIngresado)) {
+                clienteSeleccionado = clientesMap.get(textoIngresado);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Cliente no válido",
+                        "Por favor, selecciona un cliente válido de las sugerencias.");
+                return;
+            }
+        }
+
         try {
-            Usuario cliente = clienteComboBox.getValue();
             Excursion excursion = excursionComboBox.getValue();
             int numPersonas = Integer.parseInt(numPersonasField.getText().trim());
             String estado = estadoComboBox.getValue();
@@ -197,8 +253,8 @@ public class AnadirReservaController implements Initializable {
 
             Reserva nuevaReserva = new Reserva(
                     null, // ID autogenerado
-                    cliente.getIdUsuario(),
-                    cliente.getNombreCompleto(),
+                    clienteSeleccionado.getIdUsuario(),
+                    clienteSeleccionado.getNombreCompleto(),
                     excursion.getIdExcursion(),
                     excursion.getNombreRuta(),
                     LocalDateTime.now(), // Fecha reserva actual

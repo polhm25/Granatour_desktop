@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Tooltip?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainController">
@@ -40,21 +41,25 @@
                      <graphic>
                         <FontIcon iconLiteral="mdi-account" iconSize="28" />
                      </graphic>
+                     <tooltip><Tooltip text="Gestión de Usuarios (Alt+1)" /></tooltip>
                   </Button>
                   <Button fx:id="iconExcursionesButton" mnemonicParsing="false" prefHeight="51.0" prefWidth="70.0" styleClass="icon-button">
                      <graphic>
                         <FontIcon iconLiteral="mdi-nature" iconSize="28" />
                      </graphic>
+                     <tooltip><Tooltip text="Gestión de Excursiones (Alt+2)" /></tooltip>
                   </Button>
                   <Button fx:id="iconReservasButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" styleClass="icon-button">
                      <graphic>
                         <FontIcon iconLiteral="mdi-calendar-check" iconSize="28" />
                      </graphic>
+                     <tooltip><Tooltip text="Gestión de Reservas (Alt+3)" /></tooltip>
                   </Button>
                   <Button fx:id="iconAyudaButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" styleClass="icon-button">
                      <graphic>
                         <FontIcon iconLiteral="mdi-help-circle" iconSize="28" />
                      </graphic>
+                     <tooltip><Tooltip text="Centro de Ayuda (Alt+4)" /></tooltip>
                   </Button>
                   <Region HBox.hgrow="ALWAYS" />
                   <Label fx:id="userInfoLabel" text="Usuario: Pablo Hernández Martínez | Rol: admin">
@@ -62,6 +67,9 @@
                         <Font size="12.0" />
                      </font>
                   </Label>
+                  <Button fx:id="cerrarSesionButton" mnemonicParsing="true" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="Cerrar _Sesión">
+                     <tooltip><Tooltip text="Cerrar sesión y volver al login (Alt+S)" /></tooltip>
+                  </Button>
                </children>
             </HBox>
          </children>

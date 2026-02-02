@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,7 +18,9 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
             <TextField fx:id="searchField" prefWidth="300.0" promptText="Buscar por nombre de ruta o zona..." />
-            <Button fx:id="buscarButton" mnemonicParsing="false" text="🔍 Buscar" />
+            <Button fx:id="buscarButton" mnemonicParsing="true" text="🔍 _Buscar">
+               <tooltip><Tooltip text="Buscar excursiones por nombre o zona (Alt+B)" /></tooltip>
+            </Button>
          </children>
       </HBox>
 
@@ -40,11 +43,18 @@
             <Insets top="10.0" />
          </padding>
          <children>
-            <Button fx:id="añadirButton" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ Añadir" />
-            <Button fx:id="editarButton" mnemonicParsing="false" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ Editar" />
-            <Button fx:id="eliminarButton" mnemonicParsing="false" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 Eliminar" />
-            <Button fx:id="actualizarButton" mnemonicParsing="false" text="🔄 Actualizar" />
-            <Button fx:id="generarInformeButton" mnemonicParsing="false" style="-fx-background-color: #757575; -fx-text-fill: white;" text="Generar Catálogo" />
+            <Button fx:id="añadirButton" mnemonicParsing="true" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ _Añadir">
+               <tooltip><Tooltip text="Añadir nueva excursión (Alt+A)" /></tooltip>
+            </Button>
+            <Button fx:id="editarButton" mnemonicParsing="true" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ _Editar">
+               <tooltip><Tooltip text="Editar excursión seleccionada (Alt+E)" /></tooltip>
+            </Button>
+            <Button fx:id="eliminarButton" mnemonicParsing="true" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 E_liminar">
+               <tooltip><Tooltip text="Eliminar excursión seleccionada (Alt+L)" /></tooltip>
+            </Button>
+            <Button fx:id="generarInformeButton" mnemonicParsing="true" style="-fx-background-color: #757575; -fx-text-fill: white;" text="Generar _Catálogo">
+               <tooltip><Tooltip text="Generar catálogo de excursiones en HTML (Alt+C)" /></tooltip>
+            </Button>
          </children>
       </HBox>
    </children>

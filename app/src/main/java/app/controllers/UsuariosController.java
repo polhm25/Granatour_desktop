@@ -56,8 +56,6 @@ public class UsuariosController implements Initializable {
     private Button editarButton;
     @FXML
     private Button eliminarButton;
-    @FXML
-    private Button actualizarButton;
 
     // Instancia del CRUD para realizar operaciones con la base de datos
     private UsuarioCRUD usuarioCRUD;
@@ -101,7 +99,6 @@ public class UsuariosController implements Initializable {
         añadirButton.setOnAction(event -> handleAñadir());
         editarButton.setOnAction(event -> handleEditar());
         eliminarButton.setOnAction(event -> handleEliminar());
-        actualizarButton.setOnAction(event -> handleActualizar());
     }
 
     private void loadUsuariosData() {
@@ -207,12 +204,6 @@ public class UsuariosController implements Initializable {
                 showAlert(Alert.AlertType.ERROR, "Error", "No se pudo eliminar el usuario.");
             }
         }
-    }
-
-    private void handleActualizar() {
-        System.out.println("Actualizar tabla");
-        searchField.clear();
-        loadUsuariosData();
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

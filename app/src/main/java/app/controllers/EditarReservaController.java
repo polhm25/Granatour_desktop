@@ -18,16 +18,21 @@ import javafx.util.StringConverter;
 import models.Excursion;
 import models.Reserva;
 import models.Usuario;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class EditarReservaController implements Initializable {
 
     @FXML
-    private ComboBox<Usuario> clienteComboBox;
+    private TextField clienteSearchField;
     @FXML
     private ComboBox<Excursion> excursionComboBox;
     @FXML
@@ -49,6 +54,11 @@ public class EditarReservaController implements Initializable {
     private LocalDateTime fechaReservaOriginal;
 
     private Double precioPorPersona = 0.0;
+
+    // Mapa para relacionar el texto mostrado con el objeto Usuario
+    private Map<String, Usuario> clientesMap = new HashMap<>();
+    private Usuario clienteSeleccionado = null;
+    private List<Usuario> todosLosClientes;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,21 +103,8 @@ public class EditarReservaController implements Initializable {
     }
 
     private void setupComboBoxes() {
-        // Cargar clientes
-        List<Usuario> usuarios = usuarioCRUD.obtenerTodos();
-        clienteComboBox.getItems().addAll(usuarios);
-
-        clienteComboBox.setConverter(new StringConverter<Usuario>() {
-            @Override
-            public String toString(Usuario usuario) {
-                return usuario != null ? usuario.getNombreCompleto() : "";
-            }
-
-            @Override
-            public Usuario fromString(String string) {
-                return null;
-            }
-        });
+        // Cargar clientes y configurar autocompletado
+        setupClienteAutoComplete();
 
         // Cargar excursiones
         List<Excursion> excursiones = excursionCRUD.getAllExcursiones();
@@ -127,6 +124,52 @@ public class EditarReservaController implements Initializable {
 
         // Estados
         estadoComboBox.getItems().addAll("pendiente", "confirmada", "cancelada");
+    }
+
+    /**
+     * Configura el campo de búsqueda de cliente con autocompletado.
+     * Permite buscar por nombre completo o DNI.
+     */
+    private void setupClienteAutoComplete() {
+        todosLosClientes = usuarioCRUD.obtenerTodos();
+
+        // Crear mapa de texto -> Usuario para búsqueda rápida
+        for (Usuario usuario : todosLosClientes) {
+            // Formato: "Nombre Completo - DNI"
+            String displayText = usuario.getNombreCompleto() + " - " + usuario.getDni();
+            clientesMap.put(displayText, usuario);
+        }
+
+        // Configurar autocompletado con ControlsFX
+        AutoCompletionBinding<String> autoCompletion = TextFields.bindAutoCompletion(
+                clienteSearchField,
+                request -> {
+                    String userText = request.getUserText().toLowerCase();
+                    return clientesMap.keySet().stream()
+                            .filter(item -> item.toLowerCase().contains(userText))
+                            .collect(Collectors.toList());
+                });
+
+        // Cuando el usuario selecciona una sugerencia
+        autoCompletion.setOnAutoCompleted(event -> {
+            String selectedText = event.getCompletion();
+            clienteSeleccionado = clientesMap.get(selectedText);
+            if (clienteSeleccionado != null) {
+                System.out.println("Cliente seleccionado: " + clienteSeleccionado.getNombreCompleto());
+            }
+        });
+
+        // Listener para detectar cuando el usuario borra o cambia el texto manualmente
+        clienteSearchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                // Verificar si el texto coincide exactamente con un cliente del mapa
+                if (clientesMap.containsKey(newVal)) {
+                    clienteSeleccionado = clientesMap.get(newVal);
+                }
+            } else {
+                clienteSeleccionado = null;
+            }
+        });
     }
 
     private void setupListeners() {
@@ -160,10 +203,12 @@ public class EditarReservaController implements Initializable {
         estadoComboBox.setValue(reserva.getEstado());
         precioTotalLabel.setText(String.format("%.2f €", reserva.getPrecioTotal()));
 
-        // Seleccionar cliente
-        for (Usuario u : clienteComboBox.getItems()) {
+        // Seleccionar cliente - buscar en el mapa y establecer en el campo de búsqueda
+        for (Usuario u : todosLosClientes) {
             if (u.getIdUsuario().equals(reserva.getIdUsuario())) {
-                clienteComboBox.setValue(u);
+                clienteSeleccionado = u;
+                String displayText = u.getNombreCompleto() + " - " + u.getDni();
+                clienteSearchField.setText(displayText);
                 break;
             }
         }
@@ -188,8 +233,19 @@ public class EditarReservaController implements Initializable {
             return;
         }
 
+        // Validar que se haya seleccionado un cliente válido
+        if (clienteSeleccionado == null) {
+            String textoIngresado = clienteSearchField.getText();
+            if (clientesMap.containsKey(textoIngresado)) {
+                clienteSeleccionado = clientesMap.get(textoIngresado);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Cliente no válido",
+                        "Por favor, selecciona un cliente válido de las sugerencias.");
+                return;
+            }
+        }
+
         try {
-            Usuario cliente = clienteComboBox.getValue();
             Excursion excursion = excursionComboBox.getValue();
             int numPersonas = Integer.parseInt(numPersonasField.getText().trim());
             String estado = estadoComboBox.getValue();
@@ -197,8 +253,8 @@ public class EditarReservaController implements Initializable {
 
             Reserva reservaActualizada = new Reserva(
                     idReserva,
-                    cliente.getIdUsuario(),
-                    cliente.getNombreCompleto(),
+                    clienteSeleccionado.getIdUsuario(),
+                    clienteSeleccionado.getNombreCompleto(),
                     excursion.getIdExcursion(),
                     excursion.getNombreRuta(),
                     fechaReservaOriginal, // Mantener fecha original
@@ -225,7 +281,7 @@ public class EditarReservaController implements Initializable {
     }
 
     private boolean validateFields() {
-        if (clienteComboBox.getValue() == null || excursionComboBox.getValue() == null ||
+        if (clienteSearchField.getText().trim().isEmpty() || excursionComboBox.getValue() == null ||
                 numPersonasField.getText().trim().isEmpty() || estadoComboBox.getValue() == null) {
 
             showAlert(Alert.AlertType.ERROR, "Campos vacíos", "Por favor, completa todos los campos obligatorios.");

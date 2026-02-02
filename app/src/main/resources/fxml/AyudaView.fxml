@@ -196,20 +196,25 @@
                      </children>
                   </HBox>
 
-                  <Label text="Utiliza los siguientes atajos de teclado para navegar rápidamente entre las diferentes secciones de la aplicación:" textFill="#666666" wrapText="true">
+                  <Label text="Utiliza los siguientes atajos de teclado para navegar y operar rápidamente en la aplicación:" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
 
-                  <VBox spacing="10.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                  <!-- Navegación entre módulos -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
                      <children>
-                        <!-- Alt+1 -->
+                        <Label text="Navegación entre módulos" textFill="#4CAF50">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                            <children>
                               <Label text="Alt + 1" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
                               <Label text="Ir al módulo de Usuarios" textFill="#666666">
@@ -219,13 +224,11 @@
                               </Label>
                            </children>
                         </HBox>
-
-                        <!-- Alt+2 -->
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                            <children>
                               <Label text="Alt + 2" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
                               <Label text="Ir al módulo de Excursiones" textFill="#666666">
@@ -235,13 +238,11 @@
                               </Label>
                            </children>
                         </HBox>
-
-                        <!-- Alt+3 -->
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                            <children>
                               <Label text="Alt + 3" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
                               <Label text="Ir al módulo de Reservas" textFill="#666666">
@@ -251,13 +252,11 @@
                               </Label>
                            </children>
                         </HBox>
-
-                        <!-- Alt+4 -->
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                            <children>
                               <Label text="Alt + 4" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
                               <Label text="Ir al módulo de Ayuda" textFill="#666666">
@@ -267,10 +266,225 @@
                               </Label>
                            </children>
                         </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + S" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Cerrar sesión" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
 
-                  <Label text="Nota: También puedes usar el teclado numérico (Numpad 1-4) junto con Alt." textFill="#999999" wrapText="true">
+                  <!-- Acciones en vistas -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <Label text="Acciones en las vistas (Usuarios, Excursiones, Reservas)" textFill="#4CAF50">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + B" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Buscar en la tabla" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + A" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Añadir nuevo registro" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + E" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Editar registro seleccionado" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + L" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Eliminar registro seleccionado" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + C" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Generar Catálogo (en Excursiones)" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + I" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Generar Informe PDF (en Reservas)" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <!-- Ventanas modales -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <Label text="En ventanas modales (Añadir/Editar)" textFill="#4CAF50">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + G" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Guardar cambios" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + C" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Cancelar y cerrar ventana" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <!-- Pantalla de Login -->
+                  <VBox spacing="8.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 8; -fx-padding: 15;">
+                     <children>
+                        <Label text="Pantalla de Login" textFill="#4CAF50">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Enter" style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Iniciar sesión" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Escape" style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Salir de la aplicación" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + I" style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Iniciar sesión" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Alt + S" style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 5;">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Salir de la aplicación" textFill="#666666">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <Label text="Nota: También puedes usar el teclado numérico (Numpad 1-4) junto con Alt para la navegación." textFill="#999999" wrapText="true">
                      <font>
                         <Font size="12.0" />
                      </font>

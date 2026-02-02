@@ -197,4 +197,44 @@ public class ReservaCRUD {
 
         return false;
     }
+
+    /**
+     * Obtiene las reservas de un usuario específico por su ID.
+     * Utilizado para filtrar reservas cuando el usuario es cliente.
+     */
+    public ObservableList<Reserva> getReservasPorUsuario(int idUsuario) {
+        ObservableList<Reserva> reservas = FXCollections.observableArrayList();
+        String query = "SELECT r.id_reserva, r.id_usuario, " +
+                "CONCAT(COALESCE(u.nombre, ''), ' ', COALESCE(u.ap1, '')) as nombre_cliente, " +
+                "r.id_excursion, e.nombre_ruta, r.fecha_reserva, r.num_personas, r.estado, r.precio_total " +
+                "FROM RESERVAS r " +
+                "LEFT JOIN USUARIOS u ON r.id_usuario = u.id_usuario " +
+                "LEFT JOIN EXCURSIONES e ON r.id_excursion = e.id_excursion " +
+                "WHERE r.id_usuario = ?";
+
+        try {
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            if (connection == null || connection.isClosed()) {
+                System.err.println("Error: Conexión a la base de datos es nula o está cerrada");
+                return reservas;
+            }
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setInt(1, idUsuario);
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        Reserva reserva = mapearReserva(rs);
+                        reservas.add(reserva);
+                    }
+                    System.out.println("Se cargaron " + reservas.size() + " reservas del usuario ID: " + idUsuario);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener reservas del usuario: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return reservas;
+    }
 }

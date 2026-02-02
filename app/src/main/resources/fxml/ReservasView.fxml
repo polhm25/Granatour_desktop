@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -19,7 +20,9 @@
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
             <TextField fx:id="searchField" prefWidth="300.0" promptText="Buscar por cliente, excursión o estado..." />
-            <Button fx:id="buscarButton" mnemonicParsing="false" text="🔍 Buscar" />
+            <Button fx:id="buscarButton" mnemonicParsing="true" text="🔍 _Buscar">
+               <tooltip><Tooltip text="Buscar reservas por cliente, excursión o estado (Alt+B)" /></tooltip>
+            </Button>
          </children>
       </HBox>
 
@@ -43,7 +46,9 @@
          <children>
             <Label text="Estado del informe:" />
             <ComboBox fx:id="estadoInformeComboBox" prefWidth="120.0" />
-            <Button fx:id="generarInformeButton" mnemonicParsing="false" style="-fx-background-color: #757575; -fx-text-fill: white;" text="Generar Informe PDF" />
+            <Button fx:id="generarInformeButton" mnemonicParsing="true" style="-fx-background-color: #757575; -fx-text-fill: white;" text="Generar _Informe PDF">
+               <tooltip><Tooltip text="Generar informe PDF de reservas por estado (Alt+I)" /></tooltip>
+            </Button>
          </children>
       </HBox>
 
@@ -53,10 +58,15 @@
             <Insets top="10.0" />
          </padding>
          <children>
-            <Button fx:id="añadirButton" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ Añadir" />
-            <Button fx:id="editarButton" mnemonicParsing="false" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ Editar" />
-            <Button fx:id="eliminarButton" mnemonicParsing="false" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 Eliminar" />
-            <Button fx:id="actualizarButton" mnemonicParsing="false" text="🔄 Actualizar" />
+            <Button fx:id="añadirButton" mnemonicParsing="true" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="➕ _Añadir">
+               <tooltip><Tooltip text="Añadir nueva reserva (Alt+A)" /></tooltip>
+            </Button>
+            <Button fx:id="editarButton" mnemonicParsing="true" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="✏ _Editar">
+               <tooltip><Tooltip text="Editar reserva seleccionada (Alt+E)" /></tooltip>
+            </Button>
+            <Button fx:id="eliminarButton" mnemonicParsing="true" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="🗑 E_liminar">
+               <tooltip><Tooltip text="Eliminar reserva seleccionada (Alt+L)" /></tooltip>
+            </Button>
          </children>
       </HBox>
    </children>

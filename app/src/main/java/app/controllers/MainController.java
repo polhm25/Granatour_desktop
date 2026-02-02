@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -13,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import models.Usuario;
 
 import java.io.IOException;
@@ -46,6 +48,9 @@ public class MainController implements Initializable {
     @FXML
     private Label userInfoLabel;
 
+    @FXML
+    private Button cerrarSesionButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Carga las vistas FXML en cada pestaña de la aplicación
@@ -54,8 +59,14 @@ public class MainController implements Initializable {
         // Configura las acciones de los botones de iconos para cambiar de pestaña
         setupIconButtonActions();
 
+        // Configura el botón de cerrar sesión
+        cerrarSesionButton.setOnAction(event -> handleCerrarSesion());
+
         // Actualiza la información del usuario autenticado en la interfaz
         cargarInformacionUsuario();
+
+        // Aplica restricciones de acceso según el rol del usuario
+        aplicarRestriccionesPorRol();
 
         // Configura los atajos de teclado cuando la escena esté disponible
         setupKeyboardShortcuts();
@@ -80,9 +91,13 @@ public class MainController implements Initializable {
                 KeyCombination altNumpad4 = new KeyCodeCombination(KeyCode.NUMPAD4, KeyCombination.ALT_DOWN);
 
                 // Añadimos el filtro de eventos de teclado a la escena
+                // Solo permite navegar a pestañas que están visibles (no removidas)
                 newScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                     if (alt1.match(event) || altNumpad1.match(event)) {
-                        mainTabPane.getSelectionModel().select(tabUsuarios);
+                        // Solo si la pestaña de Usuarios está disponible
+                        if (mainTabPane.getTabs().contains(tabUsuarios)) {
+                            mainTabPane.getSelectionModel().select(tabUsuarios);
+                        }
                         event.consume();
                     } else if (alt2.match(event) || altNumpad2.match(event)) {
                         mainTabPane.getSelectionModel().select(tabExcursiones);
@@ -147,6 +162,57 @@ public class MainController implements Initializable {
             userInfoLabel.setText("Usuario: " + nombreCompleto + " | Rol: " + rol);
         } else {
             userInfoLabel.setText("Usuario: No autenticado | Rol: desconocido");
+        }
+    }
+
+    /**
+     * Aplica restricciones de acceso a las pestañas según el rol del usuario.
+     * - Admin: Acceso completo a todas las pestañas
+     * - Guía: Sin acceso a Usuarios
+     * - Cliente: Sin acceso a Usuarios
+     */
+    private void aplicarRestriccionesPorRol() {
+        SessionManager session = SessionManager.getInstance();
+
+        if (session.isCliente() || session.isGuia()) {
+            // Ocultar pestaña de Usuarios para clientes y guías
+            mainTabPane.getTabs().remove(tabUsuarios);
+            iconUsuariosButton.setVisible(false);
+            iconUsuariosButton.setManaged(false);
+
+            // Seleccionar la pestaña de Excursiones como predeterminada
+            mainTabPane.getSelectionModel().select(tabExcursiones);
+
+            System.out.println("Restricciones aplicadas: Pestaña Usuarios oculta para rol " + session.getRol());
+        }
+    }
+
+    /**
+     * Cierra la sesión del usuario actual y vuelve a la pantalla de login.
+     */
+    private void handleCerrarSesion() {
+        // Cerrar la sesión en el SessionManager
+        SessionManager.getInstance().cerrarSesion();
+
+        try {
+            // Cargar la vista de login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
+            Parent loginView = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) cerrarSesionButton.getScene().getWindow();
+
+            // Configurar la nueva escena con el login
+            Scene loginScene = new Scene(loginView);
+            stage.setScene(loginScene);
+            stage.setTitle("GranaTour - Iniciar Sesión");
+            stage.centerOnScreen();
+
+            System.out.println("Sesión cerrada. Volviendo al login...");
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista de login: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
