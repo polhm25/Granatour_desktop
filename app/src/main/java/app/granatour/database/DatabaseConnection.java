@@ -17,10 +17,10 @@ public class DatabaseConnection {
             String user = DatabaseConfig.getUser();
             String password = DatabaseConfig.getPassword();
 
-            // Carga el driver de MySQL para establecer conexiones
-            System.out.println("Cargando driver MySQL...");
+            // Carga el driver JDBC para establecer conexiones
+            System.out.println("Cargando driver de base de datos...");
             Class.forName(driverClass);
-            System.out.println("Driver MySQL cargado exitosamente");
+            System.out.println("Driver cargado exitosamente");
 
             System.out.println("Intentando conectar a: " + url);
             this.connection = DriverManager.getConnection(url, user, password);
@@ -31,8 +31,8 @@ public class DatabaseConnection {
             }
 
         } catch (ClassNotFoundException e) {
-            System.err.println("✗ Error: MySQL JDBC Driver no encontrado");
-            System.err.println("  Verifica que mysql-connector-java esté en las dependencias");
+            System.err.println("✗ Error: JDBC Driver no encontrado");
+            System.err.println("  Verifica que el driver PostgreSQL esté en las dependencias");
             e.printStackTrace();
         } catch (SQLException e) {
             System.err.println("✗ Error al conectar con la base de datos");

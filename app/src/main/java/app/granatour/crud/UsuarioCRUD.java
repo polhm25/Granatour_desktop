@@ -35,10 +35,11 @@ public class UsuarioCRUD {
             }
         } catch (SQLException e) {
             System.err.println("Error al insertar usuario: " + e.getMessage());
-            if (e.getMessage().contains("Duplicate entry")) {
-                if (e.getMessage().contains(usuario.getDni())) {
+            // PostgreSQL usa "duplicate key value" para violaciones de unicidad
+            if (e.getMessage().contains("duplicate key value") || e.getMessage().contains("Duplicate entry")) {
+                if (e.getMessage().contains("dni") || e.getMessage().contains(usuario.getDni())) {
                     System.err.println("   DNI ya existe: " + usuario.getDni());
-                } else if (e.getMessage().contains(usuario.getEmail())) {
+                } else if (e.getMessage().contains("email") || e.getMessage().contains(usuario.getEmail())) {
                     System.err.println("   Email ya existe: " + usuario.getEmail());
                 }
             }

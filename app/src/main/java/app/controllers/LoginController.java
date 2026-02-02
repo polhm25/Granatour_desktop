@@ -204,6 +204,12 @@ public class LoginController implements Initializable {
             mainStage.setScene(scene);
             mainStage.setResizable(true);
 
+            // Establecer tamaño mínimo y preferido
+            mainStage.setMinWidth(900);
+            mainStage.setMinHeight(700);
+            mainStage.setWidth(1100);
+            mainStage.setHeight(800);
+
             // Mostrar ventana principal
             mainStage.show();
 

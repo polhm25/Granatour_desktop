@@ -62,7 +62,7 @@ public class DatabaseConfig {
      * Obtiene el driver JDBC
      */
     public static String getDriver() {
-        return properties.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
+        return properties.getProperty("db.driver", "org.postgresql.Driver");
     }
 
     /**

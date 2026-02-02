@@ -8,12 +8,13 @@ repositories {
 }
 
 javafx {
-    version = "25"
+    version = "21.0.5"
     modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.web' ]
 }
 
 dependencies {
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    // PostgreSQL para Supabase (antes era MySQL)
+    implementation 'org.postgresql:postgresql:42.7.3'
     implementation 'org.controlsfx:controlsfx:11.2.1'
 
     // Ikonli - Iconos Material Design
@@ -34,9 +35,8 @@ dependencies {
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
-    }
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 application {
