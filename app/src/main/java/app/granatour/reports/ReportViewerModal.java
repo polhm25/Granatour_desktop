@@ -1,7 +1,10 @@
 package app.granatour.reports;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -9,20 +12,18 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 
+import java.awt.Desktop;
 import java.io.File;
 
 /**
  * Modal con WebView para mostrar informes HTML generados por JasperReports.
- * Muestra el informe de Catálogo de Excursiones en una ventana modal.
  */
 public class ReportViewerModal {
 
     /**
      * Muestra un informe HTML en un modal con WebView
-     * 
+     *
      * @param htmlPath Ruta al archivo HTML
      * @param title    Título de la ventana
      */
@@ -39,24 +40,46 @@ public class ReportViewerModal {
             webEngine.load(htmlFile.toURI().toString());
         } else {
             webEngine.loadContent(
-                    "<html><body style='font-family: Arial; padding: 20px;'>" +
-                            "<h2 style='color: #C62828;'>Error</h2>" +
-                            "<p>No se pudo cargar el informe: " + htmlPath + "</p>" +
-                            "</body></html>");
+                    "<html><body style='font-family:Arial;padding:20px;'>" +
+                    "<h2 style='color:#C62828;'>Error</h2>" +
+                    "<p>No se pudo cargar el informe: " + htmlPath + "</p>" +
+                    "</body></html>");
         }
 
-        // Botón para cerrar el modal
+        // Barra superior con título
+        HBox titleBar = new HBox();
+        titleBar.setAlignment(Pos.CENTER_LEFT);
+        titleBar.setPadding(new Insets(10, 16, 10, 16));
+        titleBar.setStyle("-fx-background-color: #2E7D32;");
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+        titleBar.getChildren().add(titleLabel);
+
+        // Barra inferior con botones
         Button cerrarButton = new Button("Cerrar");
-        cerrarButton.setStyle("-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 8 20;");
+        cerrarButton.setStyle("-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 8 20; -fx-font-weight: bold; -fx-background-radius: 4; -fx-cursor: hand;");
         cerrarButton.setOnAction(e -> stage.close());
+
+        Button abrirNavegadorButton = new Button("Abrir en Navegador");
+        abrirNavegadorButton.setStyle("-fx-background-color: #1976D2; -fx-text-fill: white; -fx-padding: 8 20; -fx-font-weight: bold; -fx-background-radius: 4; -fx-cursor: hand;");
+        abrirNavegadorButton.setOnAction(e -> {
+            try {
+                if (htmlFile.exists() && Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(htmlFile.toURI());
+                }
+            } catch (Exception ex) {
+                System.err.println("Error al abrir en navegador: " + ex.getMessage());
+            }
+        });
 
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonBox.setPadding(new Insets(10));
+        buttonBox.setPadding(new Insets(10, 16, 10, 16));
         buttonBox.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-width: 1 0 0 0;");
-        buttonBox.getChildren().add(cerrarButton);
+        buttonBox.getChildren().addAll(abrirNavegadorButton, cerrarButton);
 
         BorderPane root = new BorderPane();
+        root.setTop(titleBar);
         root.setCenter(webView);
         root.setBottom(buttonBox);
 

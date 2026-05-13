@@ -4,10 +4,12 @@ import app.granatour.crud.ReservaCRUD;
 import app.granatour.session.SessionManager;
 import app.utils.AlertUtils;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -59,6 +61,10 @@ public class ReservasController implements Initializable {
     private Button editarButton;
     @FXML
     private Button eliminarButton;
+
+    // Contador de registros en toolbar
+    @FXML
+    private Label recordCountLabel;
 
     // Componentes para generación de informes
     @FXML
@@ -125,26 +131,36 @@ public class ReservasController implements Initializable {
     }
 
     private void loadReservasData() {
-        try {
-            ObservableList<Reserva> reservas;
-            SessionManager session = SessionManager.getInstance();
+        reservasTable.setPlaceholder(new Label("Cargando datos..."));
 
-            if (session.isCliente()) {
-                // Clientes solo ven sus propias reservas
-                int idUsuario = session.getIdUsuario();
-                reservas = reservaCRUD.getReservasPorUsuario(idUsuario);
-                System.out.println("Datos de reservas del cliente ID " + idUsuario + " cargados en tabla");
-            } else {
-                // Admin y Guía ven todas las reservas
-                reservas = reservaCRUD.getAllReservas();
-                System.out.println("Datos de todas las reservas cargados en tabla");
+        Task<ObservableList<Reserva>> task = new Task<>() {
+            @Override
+            protected ObservableList<Reserva> call() {
+                SessionManager session = SessionManager.getInstance();
+                if (session.isCliente()) {
+                    return reservaCRUD.getReservasPorUsuario(session.getIdUsuario());
+                }
+                return reservaCRUD.getAllReservas();
             }
+        };
 
-            reservasTable.setItems(reservas);
-        } catch (Exception e) {
-            System.err.println("Error al cargar datos de reservas: " + e.getMessage());
-            e.printStackTrace();
-        }
+        task.setOnSucceeded(event -> {
+            reservasTable.setItems(task.getValue());
+            reservasTable.setPlaceholder(new Label("No hay reservas disponibles"));
+            recordCountLabel.setText(task.getValue().size() + " registros");
+            System.out.println("Datos de reservas cargados en tabla");
+        });
+
+        task.setOnFailed(event -> {
+            System.err.println("Error al cargar datos de reservas: " + task.getException().getMessage());
+            AlertUtils.showAlert(Alert.AlertType.ERROR, "Error",
+                    "No se pudieron cargar las reservas: " + task.getException().getMessage());
+            reservasTable.setPlaceholder(new Label("Error al cargar datos"));
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void handleBuscar() {
@@ -159,6 +175,7 @@ public class ReservasController implements Initializable {
         System.out.println("Buscando: " + searchText);
         ObservableList<Reserva> reservas = reservaCRUD.searchReservas(searchText);
         reservasTable.setItems(reservas);
+        recordCountLabel.setText(reservas.size() + " registros");
     }
 
     private void handleAñadir() {

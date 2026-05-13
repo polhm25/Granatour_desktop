@@ -4,10 +4,12 @@ import app.granatour.crud.ExcursionCRUD;
 import app.granatour.session.SessionManager;
 import app.utils.AlertUtils;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -54,6 +56,10 @@ public class ExcursionesController implements Initializable {
     @FXML
     private TableColumn<Excursion, String> guiaColumn;
 
+    // Contador de registros en toolbar
+    @FXML
+    private Label recordCountLabel;
+
     // Botones de acción para gestionar excursiones
     @FXML
     private Button añadirButton;
@@ -63,6 +69,8 @@ public class ExcursionesController implements Initializable {
     private Button eliminarButton;
     @FXML
     private Button generarInformeButton;
+    @FXML
+    private Button estadisticasButton;
 
     // Instancia del CRUD para realizar operaciones con la base de datos
     private ExcursionCRUD excursionCRUD;
@@ -105,17 +113,36 @@ public class ExcursionesController implements Initializable {
         editarButton.setOnAction(event -> handleEditar());
         eliminarButton.setOnAction(event -> handleEliminar());
         generarInformeButton.setOnAction(event -> handleGenerarInforme());
+        estadisticasButton.setOnAction(event -> handleGenerarEstadisticas());
     }
 
     private void loadExcursionesData() {
-        try {
-            ObservableList<Excursion> excursiones = excursionCRUD.getAllExcursiones();
-            excursionesTable.setItems(excursiones);
+        excursionesTable.setPlaceholder(new Label("Cargando datos..."));
+
+        Task<ObservableList<Excursion>> task = new Task<>() {
+            @Override
+            protected ObservableList<Excursion> call() {
+                return excursionCRUD.getAllExcursiones();
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            excursionesTable.setItems(task.getValue());
+            excursionesTable.setPlaceholder(new Label("No hay excursiones disponibles"));
+            recordCountLabel.setText(task.getValue().size() + " registros");
             System.out.println("Datos de excursiones cargados en tabla");
-        } catch (Exception e) {
-            System.err.println("Error al cargar datos de excursiones: " + e.getMessage());
-            e.printStackTrace();
-        }
+        });
+
+        task.setOnFailed(event -> {
+            System.err.println("Error al cargar datos de excursiones: " + task.getException().getMessage());
+            AlertUtils.showAlert(Alert.AlertType.ERROR, "Error",
+                    "No se pudieron cargar las excursiones: " + task.getException().getMessage());
+            excursionesTable.setPlaceholder(new Label("Error al cargar datos"));
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void handleBuscar() {
@@ -130,6 +157,7 @@ public class ExcursionesController implements Initializable {
         System.out.println("Buscando: " + searchText);
         ObservableList<Excursion> excursiones = excursionCRUD.searchExcursiones(searchText);
         excursionesTable.setItems(excursiones);
+        recordCountLabel.setText(excursiones.size() + " registros");
     }
 
     private void handleAñadir() {
@@ -244,6 +272,28 @@ public class ExcursionesController implements Initializable {
     }
 
     /**
+     * Genera el informe de estadísticas de excursiones por zona en HTML
+     */
+    private void handleGenerarEstadisticas() {
+        System.out.println("=== Iniciando generación de Estadísticas por Zona ===");
+        try {
+            ReportGenerator reportGenerator = new ReportGenerator();
+            String htmlPath = reportGenerator.generarEstadisticasPorZonaHTML();
+            System.out.println("Estadísticas generadas en: " + htmlPath);
+            ReportViewerModal.mostrarInformeHTML(htmlPath, "Estadísticas por Zona - GranaTour");
+        } catch (JRException e) {
+            System.err.println("Error JasperReports en estadísticas: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error al generar estadísticas",
+                    "No se pudieron generar las estadísticas.\n\nDetalle: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error inesperado en estadísticas: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Error inesperado: " + e.getMessage());
+        }
+    }
+
+    /**
      * Aplica restricciones de acceso a los botones CRUD según el rol del usuario.
      * - Admin: Acceso completo (añadir, editar, eliminar)
      * - Guía y Cliente: Solo lectura (oculta botones de añadir, editar, eliminar)
@@ -263,6 +313,7 @@ public class ExcursionesController implements Initializable {
             eliminarButton.setManaged(false);
 
             System.out.println("Restricciones aplicadas en Excursiones: Solo lectura para rol " + session.getRol());
+
         }
     }
 }

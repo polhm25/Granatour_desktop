@@ -4,10 +4,12 @@ import app.granatour.crud.UsuarioCRUD;
 import app.utils.AlertUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -48,6 +50,10 @@ public class UsuariosController implements Initializable {
     private TableColumn<Usuario, String> telefonoColumn;
     @FXML
     private TableColumn<Usuario, String> rolColumn;
+
+    // Contador de registros en toolbar
+    @FXML
+    private Label recordCountLabel;
 
     // Botones de acción para gestionar usuarios
     @FXML
@@ -102,15 +108,33 @@ public class UsuariosController implements Initializable {
     }
 
     private void loadUsuariosData() {
-        try {
-            List<Usuario> usuarios = usuarioCRUD.obtenerTodos();
-            ObservableList<Usuario> observableList = FXCollections.observableArrayList(usuarios);
-            usuariosTable.setItems(observableList);
+        usuariosTable.setPlaceholder(new Label("Cargando datos..."));
+
+        Task<ObservableList<Usuario>> task = new Task<>() {
+            @Override
+            protected ObservableList<Usuario> call() {
+                List<Usuario> usuarios = usuarioCRUD.obtenerTodos();
+                return FXCollections.observableArrayList(usuarios);
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            usuariosTable.setItems(task.getValue());
+            usuariosTable.setPlaceholder(new Label("No hay usuarios disponibles"));
+            recordCountLabel.setText(task.getValue().size() + " registros");
             System.out.println("Datos de usuarios cargados en tabla");
-        } catch (Exception e) {
-            System.err.println("Error al cargar datos de usuarios: " + e.getMessage());
-            e.printStackTrace();
-        }
+        });
+
+        task.setOnFailed(event -> {
+            System.err.println("Error al cargar datos de usuarios: " + task.getException().getMessage());
+            AlertUtils.showAlert(Alert.AlertType.ERROR, "Error",
+                    "No se pudieron cargar los usuarios: " + task.getException().getMessage());
+            usuariosTable.setPlaceholder(new Label("Error al cargar datos"));
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void handleBuscar() {

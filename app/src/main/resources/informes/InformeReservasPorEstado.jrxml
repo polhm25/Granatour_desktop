@@ -11,12 +11,10 @@
               topMargin="25"
               bottomMargin="20">
 
-    <!-- Parámetro para filtrar por estado -->
     <parameter name="ESTADO_RESERVA" class="java.lang.String">
         <defaultValueExpression><![CDATA["TODAS"]]></defaultValueExpression>
     </parameter>
 
-    <!-- Query principal con JOIN de 3 tablas -->
     <queryString>
         <![CDATA[
             SELECT
@@ -37,7 +35,6 @@
         ]]>
     </queryString>
 
-    <!-- Campos de la consulta -->
     <field name="id_reserva" class="java.lang.Integer"/>
     <field name="cliente_nombre" class="java.lang.String"/>
     <field name="cliente_dni" class="java.lang.String"/>
@@ -48,7 +45,6 @@
     <field name="estado" class="java.lang.String"/>
     <field name="precio_total" class="java.math.BigDecimal"/>
 
-    <!-- Variables para cálculos -->
     <variable name="TOTAL_RESERVAS" class="java.lang.Integer" calculation="Count">
         <variableExpression><![CDATA[$F{id_reserva}]]></variableExpression>
     </variable>
@@ -59,59 +55,59 @@
         <variableExpression><![CDATA[$F{precio_total}]]></variableExpression>
     </variable>
 
-    <!-- Título del documento -->
+    <!-- Título con encabezado verde -->
     <title>
         <band height="100">
             <rectangle>
-                <reportElement x="0" y="0" width="555" height="50" forecolor="#424242"/>
+                <reportElement x="0" y="0" width="555" height="50" backcolor="#2E7D32" forecolor="#2E7D32"/>
             </rectangle>
             <staticText>
-                <reportElement x="15" y="8" width="250" height="18" forecolor="#000000"/>
+                <reportElement x="15" y="8" width="250" height="18" forecolor="#FFFFFF"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="14" isBold="true"/>
                 </textElement>
                 <text><![CDATA[GRANATOUR]]></text>
             </staticText>
             <staticText>
-                <reportElement x="15" y="26" width="250" height="12" forecolor="#424242"/>
+                <reportElement x="15" y="28" width="250" height="12" forecolor="#C8E6C9"/>
                 <textElement>
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
                 <text><![CDATA[Agencia Oficial de Turismo y Senderismo]]></text>
             </staticText>
             <staticText>
-                <reportElement x="380" y="12" width="80" height="12" forecolor="#424242"/>
+                <reportElement x="380" y="14" width="80" height="12" forecolor="#C8E6C9"/>
                 <textElement textAlignment="Right">
                     <font size="8"/>
                 </textElement>
                 <text><![CDATA[Fecha emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy HH:mm">
-                <reportElement x="465" y="12" width="80" height="12" forecolor="#000000"/>
+                <reportElement x="465" y="14" width="80" height="12" forecolor="#FFFFFF"/>
                 <textElement>
                     <font size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
             <line>
-                <reportElement x="0" y="55" width="555" height="1" forecolor="#424242"/>
+                <reportElement x="0" y="55" width="555" height="1" forecolor="#4CAF50"/>
             </line>
             <staticText>
-                <reportElement x="0" y="60" width="555" height="22" forecolor="#000000"/>
+                <reportElement x="0" y="60" width="555" height="22" forecolor="#2E7D32"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="16" isBold="true"/>
                 </textElement>
                 <text><![CDATA[INFORME DE RESERVAS]]></text>
             </staticText>
             <staticText>
-                <reportElement x="160" y="82" width="120" height="15" forecolor="#000000"/>
+                <reportElement x="160" y="82" width="120" height="15" forecolor="#424242"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="10"/>
                 </textElement>
                 <text><![CDATA[Filtro aplicado:]]></text>
             </staticText>
             <textField>
-                <reportElement x="285" y="82" width="150" height="15" forecolor="#000000"/>
+                <reportElement x="285" y="82" width="150" height="15" forecolor="#2E7D32"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="10" isBold="true"/>
                 </textElement>
@@ -120,11 +116,11 @@
         </band>
     </title>
 
-    <!-- Encabezado de columnas -->
+    <!-- Cabeceras de columnas con fondo verde -->
     <columnHeader>
         <band height="25">
             <rectangle>
-                <reportElement x="0" y="0" width="555" height="25" backcolor="#424242" forecolor="#424242"/>
+                <reportElement x="0" y="0" width="555" height="25" backcolor="#2E7D32" forecolor="#2E7D32"/>
             </rectangle>
             <staticText>
                 <reportElement x="5" y="0" width="30" height="25" forecolor="#FFFFFF"/>
@@ -185,23 +181,23 @@
         </band>
     </columnHeader>
 
-    <!-- Detalle - cada reserva -->
+    <!-- Detalle — fila por reserva con filas alternas y estado coloreado -->
     <detail>
         <band height="22">
             <rectangle>
-                <reportElement x="0" y="0" width="555" height="21" backcolor="#FAFAFA" forecolor="#E0E0E0">
+                <reportElement x="0" y="0" width="555" height="21" backcolor="#F1F8E9" forecolor="#E0E0E0">
                     <printWhenExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></printWhenExpression>
                 </reportElement>
             </rectangle>
             <textField>
-                <reportElement x="5" y="2" width="30" height="18" forecolor="#000000"/>
+                <reportElement x="5" y="2" width="30" height="18" forecolor="#424242"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{id_reserva}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="40" y="2" width="100" height="18" forecolor="#000000"/>
+                <reportElement x="40" y="2" width="100" height="18" forecolor="#212121"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
@@ -215,35 +211,60 @@
                 <textFieldExpression><![CDATA[$F{cliente_dni}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="205" y="2" width="100" height="18" forecolor="#000000"/>
+                <reportElement x="205" y="2" width="100" height="18" forecolor="#212121"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{nombre_ruta}]]></textFieldExpression>
             </textField>
             <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-                <reportElement x="310" y="2" width="70" height="18" forecolor="#000000"/>
+                <reportElement x="310" y="2" width="70" height="18" forecolor="#424242"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{fecha_reserva}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="385" y="2" width="40" height="18" forecolor="#000000"/>
+                <reportElement x="385" y="2" width="40" height="18" forecolor="#424242"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{num_personas}]]></textFieldExpression>
             </textField>
+
+            <!-- Estado CONFIRMADA — verde -->
             <textField isBlankWhenNull="true">
-                <reportElement x="430" y="2" width="60" height="18" forecolor="#000000"/>
+                <reportElement x="430" y="2" width="60" height="18" forecolor="#2E7D32">
+                    <printWhenExpression><![CDATA[$F{estado}.equals("CONFIRMADA")]]></printWhenExpression>
+                </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8" isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
             </textField>
+            <!-- Estado PENDIENTE — naranja -->
+            <textField isBlankWhenNull="true">
+                <reportElement x="430" y="2" width="60" height="18" forecolor="#E65100">
+                    <printWhenExpression><![CDATA[$F{estado}.equals("PENDIENTE")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+            </textField>
+            <!-- Estado CANCELADA — rojo -->
+            <textField isBlankWhenNull="true">
+                <reportElement x="430" y="2" width="60" height="18" forecolor="#C62828">
+                    <printWhenExpression><![CDATA[$F{estado}.equals("CANCELADA")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+            </textField>
+
             <textField pattern="#,##0.00 €" isBlankWhenNull="true">
-                <reportElement x="495" y="2" width="55" height="18" forecolor="#000000"/>
+                <reportElement x="495" y="2" width="55" height="18" forecolor="#212121"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="8"/>
                 </textElement>
@@ -259,7 +280,7 @@
     <pageFooter>
         <band height="25">
             <line>
-                <reportElement x="0" y="3" width="555" height="1" forecolor="#757575"/>
+                <reportElement x="0" y="3" width="555" height="1" forecolor="#4CAF50"/>
             </line>
             <staticText>
                 <reportElement x="5" y="8" width="200" height="15" forecolor="#757575"/>
@@ -292,62 +313,62 @@
         </band>
     </pageFooter>
 
-    <!-- Resumen final -->
+    <!-- Resumen con totales y fondo verde claro -->
     <summary>
         <band height="120">
             <line>
-                <reportElement x="0" y="10" width="555" height="1" forecolor="#424242"/>
+                <reportElement x="0" y="10" width="555" height="1" forecolor="#4CAF50"/>
             </line>
             <staticText>
-                <reportElement x="0" y="20" width="555" height="20" forecolor="#000000"/>
+                <reportElement x="0" y="20" width="555" height="20" forecolor="#2E7D32"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="12" isBold="true"/>
                 </textElement>
                 <text><![CDATA[RESUMEN ESTADÍSTICO]]></text>
             </staticText>
             <rectangle>
-                <reportElement x="120" y="45" width="315" height="65" forecolor="#424242" backcolor="#FAFAFA"/>
+                <reportElement x="120" y="45" width="315" height="65" forecolor="#C8E6C9" backcolor="#E8F5E9"/>
             </rectangle>
             <staticText>
-                <reportElement x="130" y="50" width="180" height="15" forecolor="#000000"/>
+                <reportElement x="130" y="50" width="180" height="15" forecolor="#424242"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="9"/>
                 </textElement>
                 <text><![CDATA[Total de reservas procesadas:]]></text>
             </staticText>
             <textField>
-                <reportElement x="350" y="50" width="75" height="15" forecolor="#000000"/>
+                <reportElement x="350" y="50" width="75" height="15" forecolor="#2E7D32"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="SansSerif" size="9"/>
+                    <font fontName="SansSerif" size="9" isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$V{TOTAL_RESERVAS}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement x="130" y="68" width="180" height="15" forecolor="#000000"/>
+                <reportElement x="130" y="68" width="180" height="15" forecolor="#424242"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="9"/>
                 </textElement>
                 <text><![CDATA[Total de personas:]]></text>
             </staticText>
             <textField>
-                <reportElement x="350" y="68" width="75" height="15" forecolor="#000000"/>
+                <reportElement x="350" y="68" width="75" height="15" forecolor="#2E7D32"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="SansSerif" size="9"/>
+                    <font fontName="SansSerif" size="9" isBold="true"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$V{TOTAL_PERSONAS}]]></textFieldExpression>
             </textField>
             <rectangle>
-                <reportElement x="120" y="86" width="315" height="20" forecolor="#424242" backcolor="#BDBDBD"/>
+                <reportElement x="120" y="86" width="315" height="20" forecolor="#4CAF50" backcolor="#C8E6C9"/>
             </rectangle>
             <staticText>
-                <reportElement x="130" y="88" width="180" height="15" forecolor="#000000"/>
+                <reportElement x="130" y="88" width="180" height="15" forecolor="#2E7D32"/>
                 <textElement verticalAlignment="Middle">
                     <font fontName="SansSerif" size="9" isBold="true"/>
                 </textElement>
                 <text><![CDATA[INGRESOS TOTALES:]]></text>
             </staticText>
             <textField pattern="#,##0.00 €">
-                <reportElement x="320" y="88" width="105" height="15" forecolor="#000000"/>
+                <reportElement x="320" y="88" width="105" height="15" forecolor="#2E7D32"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font fontName="SansSerif" size="9" isBold="true"/>
                 </textElement>

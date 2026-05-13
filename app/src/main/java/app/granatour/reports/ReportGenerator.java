@@ -163,6 +163,53 @@ public class ReportGenerator {
     }
 
     /**
+     * Genera el informe de Estadísticas de Excursiones por Zona en formato HTML
+     *
+     * @return Ruta al archivo HTML generado
+     * @throws JRException Si ocurre un error al generar el informe
+     */
+    public String generarEstadisticasPorZonaHTML() throws JRException {
+        ensureOutputDirectoryExists();
+
+        InputStream reportStream = getClass().getResourceAsStream(
+                REPORTS_PATH + "EstadisticasPorZona.jrxml");
+
+        if (reportStream == null) {
+            throw new JRException("No se encontró el archivo de informe: EstadisticasPorZona.jrxml");
+        }
+
+        System.out.println("Compilando informe EstadisticasPorZona.jrxml...");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        Connection connection = getValidConnection();
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("REPORT_TITLE", "ESTADÍSTICAS DE EXCURSIONES POR ZONA");
+
+        System.out.println("Llenando informe de estadísticas...");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+        System.out.println("Estadísticas llenadas con " + jasperPrint.getPages().size() + " páginas");
+
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String outputPath = OUTPUT_DIR + "EstadisticasPorZona_" + timestamp + ".html";
+
+        HtmlExporter exporter = new HtmlExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleHtmlExporterOutput(outputPath));
+
+        SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
+        reportConfig.setRemoveEmptySpaceBetweenRows(true);
+        reportConfig.setWhitePageBackground(false);
+        reportConfig.setWrapBreakWord(true);
+        exporter.setConfiguration(reportConfig);
+
+        exporter.exportReport();
+
+        System.out.println("Estadísticas por zona generadas: " + outputPath);
+        return outputPath;
+    }
+
+    /**
      * Obtiene una conexión válida a la base de datos
      * 
      * @return Connection válida
@@ -203,18 +250,43 @@ public class ReportGenerator {
 
     /**
      * Abre un archivo PDF con el visor del sistema operativo
-     * 
+     * Usa xdg-open en Linux para evitar conflictos con JavaFX
+     *
      * @param pdfPath Ruta al archivo PDF
      */
     public void abrirPDFConVisorSistema(String pdfPath) {
         try {
             File file = new File(pdfPath);
-            if (Desktop.isDesktopSupported() && file.exists()) {
-                Desktop.getDesktop().open(file);
-                System.out.println("PDF abierto con visor del sistema");
-            } else {
-                System.err.println("No se puede abrir el PDF: Desktop no soportado o archivo no existe");
+            if (!file.exists()) {
+                System.err.println("No se puede abrir el PDF: archivo no existe - " + pdfPath);
+                return;
             }
+
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder pb;
+
+            if (os.contains("linux")) {
+                // En Linux usar xdg-open para evitar conflictos con JavaFX/AWT
+                pb = new ProcessBuilder("xdg-open", pdfPath);
+            } else if (os.contains("mac")) {
+                pb = new ProcessBuilder("open", pdfPath);
+            } else if (os.contains("win")) {
+                pb = new ProcessBuilder("cmd", "/c", "start", "", pdfPath);
+            } else {
+                // Fallback a Desktop.open para otros sistemas
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                    System.out.println("PDF abierto con Desktop.open()");
+                    return;
+                }
+                System.err.println("Sistema operativo no soportado para abrir PDF");
+                return;
+            }
+
+            pb.inheritIO();
+            pb.start();
+            System.out.println("PDF abierto con visor del sistema (" + os + ")");
+
         } catch (Exception e) {
             System.err.println("Error al abrir PDF: " + e.getMessage());
             e.printStackTrace();
@@ -298,7 +370,7 @@ public class ReportGenerator {
                             margin: 0 auto;
                         }
                         .header-banner {
-                            background: #8B1E3F;
+                            background: #2E7D32;
                             padding: 20px 30px;
                             display: flex;
                             align-items: center;
@@ -356,13 +428,13 @@ public class ReportGenerator {
                             width: 100%%;
                         }
                         th {
-                            background: #8B1E3F;
+                            background: #2E7D32;
                             color: #FFFFFF;
                             padding: 10px 8px;
                             text-align: left;
                             font-weight: 600;
                             font-size: 12px;
-                            border: 1px solid #6d1730;
+                            border: 1px solid #1B5E20;
                         }
                         td {
                             padding: 8px;
@@ -412,7 +484,7 @@ public class ReportGenerator {
     private String getHtmlFooter() {
         return """
                         </div>
-                        <div style="padding: 15px 20px; background: #8B1E3F; margin-top: 20px;">
+                        <div style="padding: 15px 20px; background: #2E7D32; margin-top: 20px;">
                             <div style="color: #FFFFFF; font-weight: 600; font-size: 13px; margin-bottom: 4px;">¿Tienes dudas? Contáctanos</div>
                             <div style="color: #e0e0e0; font-size: 12px;">info@granatour.es | +34 958 123 456</div>
                             <div style="color: #cccccc; font-size: 11px; margin-top: 8px;">GranaTour © 2025 - Turismo y Senderismo en Granada</div>
