@@ -102,8 +102,4 @@ INSERT INTO RESERVAS (id_usuario, id_excursion, fecha_reserva, num_personas, est
 (5, 3, NOW(), 3, 'confirmada', 165.00),
 (2, 4, NOW(), 2, 'confirmada', 50.00);
 
--- ============================
--- USUARIO ADMIN (si lo necesitas)
--- ============================
--- INSERT INTO USUARIOS (nombre, ap1, ap2, dni, email, telefono, rol, password)
--- VALUES ('Admin', 'Sistema', '', '00000000A', 'admin@granatour.com', '600000000', 'admin', 'admin123');
+

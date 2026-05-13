@@ -53,8 +53,8 @@ public class AnadirUsuariosController implements Initializable {
         usuarioCRUD = new UsuarioCRUD();
         validationSupport = new ValidationSupport();
 
-        // Llena el ComboBox con los roles disponibles
-        rolComboBox.getItems().addAll("usuario", "guia", "admin");
+        // Llena el ComboBox con los roles disponibles (deben coincidir con el ENUM rol_usuario de la BD)
+        rolComboBox.getItems().addAll("cliente", "guia", "admin");
 
         // Establece la primera opción como selección por defecto
         rolComboBox.getSelectionModel().selectFirst();
