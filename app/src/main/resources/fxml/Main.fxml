@@ -57,6 +57,11 @@
                <graphic><FontIcon iconLiteral="mdi-calendar-check" iconSize="26" /></graphic>
                <tooltip><Tooltip text="Gestión de Reservas (Alt+3)" /></tooltip>
             </Button>
+            <Button fx:id="navReportesButton" styleClass="sidebar-button"
+                    text="Reportes" mnemonicParsing="false" contentDisplay="TOP" graphicTextGap="6">
+               <graphic><FontIcon iconLiteral="mdi-chart-bar" iconSize="26" /></graphic>
+               <tooltip><Tooltip text="Informes y Estadísticas (Alt+5)" /></tooltip>
+            </Button>
             <Button fx:id="navAyudaButton" styleClass="sidebar-button"
                     text="Ayuda" mnemonicParsing="false" contentDisplay="TOP" graphicTextGap="6">
                <graphic><FontIcon iconLiteral="mdi-help-circle" iconSize="26" /></graphic>

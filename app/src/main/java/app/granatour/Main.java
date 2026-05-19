@@ -1,4 +1,3 @@
-
 package app.granatour;
 
 import javafx.application.Application;

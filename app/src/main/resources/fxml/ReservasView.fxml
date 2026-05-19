@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -47,8 +46,8 @@
         </columns>
       </TableView>
 
-      <!-- REPORT + ACTION BUTTONS -->
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
+      <!-- ACTION BUTTONS -->
+      <HBox alignment="CENTER" spacing="10.0">
          <padding>
             <Insets top="12.0" />
          </padding>
@@ -62,15 +61,6 @@
             </Button>
             <Button fx:id="eliminarButton" mnemonicParsing="true" styleClass="button-danger" text="🗑 E_liminar">
                <tooltip><Tooltip text="Eliminar reserva seleccionada (Alt+L)" /></tooltip>
-            </Button>
-
-            <Region HBox.hgrow="ALWAYS" />
-
-            <!-- Generación de informe -->
-            <Label text="Estado:" style="-fx-text-fill: -text-secondary; -fx-font-size: 13px;" />
-            <ComboBox fx:id="estadoInformeComboBox" prefWidth="130.0" />
-            <Button fx:id="generarInformeButton" mnemonicParsing="true" styleClass="button-cancel" text="📄 Generar _Informe PDF">
-               <tooltip><Tooltip text="Generar informe PDF de reservas por estado (Alt+I)" /></tooltip>
             </Button>
          </children>
       </HBox>

@@ -155,7 +155,11 @@ public class ReservaCRUD {
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setInt(1, reserva.getIdUsuario());
                 pstmt.setInt(2, reserva.getIdExcursion());
-                pstmt.setTimestamp(3, Timestamp.valueOf(reserva.getFechaReserva()));
+                if (reserva.getFechaReserva() != null) {
+                    pstmt.setTimestamp(3, Timestamp.valueOf(reserva.getFechaReserva()));
+                } else {
+                    pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+                }
                 pstmt.setInt(4, reserva.getNumPersonas());
                 pstmt.setString(5, reserva.getEstado());
                 pstmt.setDouble(6, reserva.getPrecioTotal());

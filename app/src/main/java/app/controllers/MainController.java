@@ -27,6 +27,7 @@ public class MainController implements Initializable {
     @FXML private Button navUsuariosButton;
     @FXML private Button navExcursionesButton;
     @FXML private Button navReservasButton;
+    @FXML private Button navReportesButton;
     @FXML private Button navAyudaButton;
 
     @FXML private Label userInfoLabel;
@@ -35,6 +36,7 @@ public class MainController implements Initializable {
     private Parent usuariosView;
     private Parent excursionesView;
     private Parent reservasView;
+    private Parent reportesView;
     private Parent ayudaView;
 
     private Button activeNavButton;
@@ -54,9 +56,10 @@ public class MainController implements Initializable {
             usuariosView = loadFXML("/fxml/UsuariosView.fxml");
             excursionesView = loadFXML("/fxml/ExcursionesView.fxml");
             reservasView = loadFXML("/fxml/ReservasView.fxml");
+            reportesView = loadFXML("/fxml/ReportesView.fxml");
             ayudaView = loadFXML("/fxml/AyudaView.fxml");
 
-            contentArea.getChildren().addAll(usuariosView, excursionesView, reservasView, ayudaView);
+            contentArea.getChildren().addAll(usuariosView, excursionesView, reservasView, reportesView, ayudaView);
             navigate(usuariosView, navUsuariosButton);
 
         } catch (IOException e) {
@@ -77,6 +80,8 @@ public class MainController implements Initializable {
         excursionesView.setManaged(false);
         reservasView.setVisible(false);
         reservasView.setManaged(false);
+        reportesView.setVisible(false);
+        reportesView.setManaged(false);
         ayudaView.setVisible(false);
         ayudaView.setManaged(false);
 
@@ -94,6 +99,7 @@ public class MainController implements Initializable {
         navUsuariosButton.setOnAction(e -> navigate(usuariosView, navUsuariosButton));
         navExcursionesButton.setOnAction(e -> navigate(excursionesView, navExcursionesButton));
         navReservasButton.setOnAction(e -> navigate(reservasView, navReservasButton));
+        navReportesButton.setOnAction(e -> navigate(reportesView, navReportesButton));
         navAyudaButton.setOnAction(e -> navigate(ayudaView, navAyudaButton));
     }
 
@@ -104,10 +110,12 @@ public class MainController implements Initializable {
                 KeyCombination alt2 = new KeyCodeCombination(KeyCode.DIGIT2, KeyCombination.ALT_DOWN);
                 KeyCombination alt3 = new KeyCodeCombination(KeyCode.DIGIT3, KeyCombination.ALT_DOWN);
                 KeyCombination alt4 = new KeyCodeCombination(KeyCode.DIGIT4, KeyCombination.ALT_DOWN);
+                KeyCombination alt5 = new KeyCodeCombination(KeyCode.DIGIT5, KeyCombination.ALT_DOWN);
                 KeyCombination altNumpad1 = new KeyCodeCombination(KeyCode.NUMPAD1, KeyCombination.ALT_DOWN);
                 KeyCombination altNumpad2 = new KeyCodeCombination(KeyCode.NUMPAD2, KeyCombination.ALT_DOWN);
                 KeyCombination altNumpad3 = new KeyCodeCombination(KeyCode.NUMPAD3, KeyCombination.ALT_DOWN);
                 KeyCombination altNumpad4 = new KeyCodeCombination(KeyCode.NUMPAD4, KeyCombination.ALT_DOWN);
+                KeyCombination altNumpad5 = new KeyCodeCombination(KeyCode.NUMPAD5, KeyCombination.ALT_DOWN);
 
                 newScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                     if (alt1.match(event) || altNumpad1.match(event)) {
@@ -121,6 +129,9 @@ public class MainController implements Initializable {
                         event.consume();
                     } else if (alt4.match(event) || altNumpad4.match(event)) {
                         navigate(ayudaView, navAyudaButton);
+                        event.consume();
+                    } else if (alt5.match(event) || altNumpad5.match(event)) {
+                        if (navReportesButton.isVisible()) navigate(reportesView, navReportesButton);
                         event.consume();
                     }
                 });
@@ -142,8 +153,10 @@ public class MainController implements Initializable {
         if (session.isCliente() || session.isGuia()) {
             navUsuariosButton.setVisible(false);
             navUsuariosButton.setManaged(false);
+            navReportesButton.setVisible(false);
+            navReportesButton.setManaged(false);
             navigate(excursionesView, navExcursionesButton);
-            System.out.println("Restricciones aplicadas: botón Usuarios oculto para rol " + session.getRol());
+            System.out.println("Restricciones aplicadas: botones Usuarios y Reportes ocultos para rol " + session.getRol());
         }
     }
 

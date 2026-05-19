@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Tooltip?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
@@ -115,23 +116,25 @@
                </VBox.margin>
                <children>
                   <!-- Botón Iniciar Sesión -->
-                  <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false"
+                  <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="true"
                           onAction="#handleLogin" prefHeight="40.0" prefWidth="130.0"
                           styleClass="button-primary"
-                          text="Iniciar Sesión">
+                          text="_Iniciar Sesión">
                      <font>
                         <Font size="13.0" />
                      </font>
+                     <tooltip><Tooltip text="Iniciar sesión en el sistema (Enter o Alt+I)" /></tooltip>
                   </Button>
 
                   <!-- Botón Salir -->
-                  <Button fx:id="exitButton" cancelButton="true" mnemonicParsing="false"
+                  <Button fx:id="exitButton" cancelButton="true" mnemonicParsing="true"
                           onAction="#handleExit" prefHeight="40.0" prefWidth="100.0"
                           styleClass="button-cancel"
-                          text="Salir">
+                          text="_Salir">
                      <font>
                         <Font size="13.0" />
                      </font>
+                     <tooltip><Tooltip text="Salir de la aplicación (Escape o Alt+S)" /></tooltip>
                   </Button>
                </children>
             </HBox>

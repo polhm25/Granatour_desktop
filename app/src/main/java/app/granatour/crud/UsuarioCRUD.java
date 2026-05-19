@@ -24,7 +24,7 @@ public class UsuarioCRUD {
                 pstmt.setString(4, usuario.getDni());
                 pstmt.setString(5, usuario.getEmail());
                 pstmt.setString(6, usuario.getTelefono());
-                pstmt.setString(7, usuario.getRol());
+                pstmt.setObject(7, usuario.getRol(), java.sql.Types.OTHER);
                 pstmt.setString(8, usuario.getPassword());
 
                 int rowsAffected = pstmt.executeUpdate();
@@ -195,7 +195,7 @@ public class UsuarioCRUD {
                 pstmt.setString(4, usuario.getDni());
                 pstmt.setString(5, usuario.getEmail());
                 pstmt.setString(6, usuario.getTelefono());
-                pstmt.setString(7, usuario.getRol());
+                pstmt.setObject(7, usuario.getRol(), java.sql.Types.OTHER);
                 pstmt.setString(8, usuario.getPassword());
                 pstmt.setObject(9, usuario.getValoracion());
                 pstmt.setObject(10, usuario.getNumTurnos());

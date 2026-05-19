@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Tooltip?>
 
 <VBox prefHeight="550.0" prefWidth="500.0" spacing="0.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.AnadirUsuariosController">
    <children>
@@ -62,8 +63,12 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <Button fx:id="guardarButton" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar" />
-            <Button fx:id="cancelarButton" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #757575; -fx-text-fill: white;" text="Cancelar" />
+            <Button fx:id="guardarButton" mnemonicParsing="true" prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="_Guardar">
+               <tooltip><Tooltip text="Guardar nuevo usuario (Alt+G)" /></tooltip>
+            </Button>
+            <Button fx:id="cancelarButton" mnemonicParsing="true" prefWidth="120.0" style="-fx-background-color: #757575; -fx-text-fill: white;" text="_Cancelar">
+               <tooltip><Tooltip text="Cancelar y cerrar (Alt+C)" /></tooltip>
+            </Button>
          </children>
       </HBox>
    </children>

@@ -26,9 +26,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import app.granatour.reports.ReportGenerator;
-import net.sf.jasperreports.engine.JRException;
 
 public class ReservasController implements Initializable {
 
@@ -66,12 +63,6 @@ public class ReservasController implements Initializable {
     @FXML
     private Label recordCountLabel;
 
-    // Componentes para generación de informes
-    @FXML
-    private ComboBox<String> estadoInformeComboBox;
-    @FXML
-    private Button generarInformeButton;
-
     // Instancia del CRUD para realizar operaciones con la base de datos
     private ReservaCRUD reservaCRUD;
 
@@ -82,9 +73,6 @@ public class ReservasController implements Initializable {
 
         // Configura las columnas de la tabla con PropertyValueFactory
         setupTableColumns();
-
-        // Configura el ComboBox de estado para informes
-        setupEstadoComboBox();
 
         // Configura las acciones de los botones
         setupButtonActions();
@@ -109,25 +97,11 @@ public class ReservasController implements Initializable {
         System.out.println("Columnas de tabla de reservas configuradas");
     }
 
-    /**
-     * Configura el ComboBox con los estados disponibles para filtrar el informe
-     */
-    private void setupEstadoComboBox() {
-        estadoInformeComboBox.getItems().addAll(
-                "TODAS",
-                "pendiente",
-                "confirmada",
-                "cancelada"
-        );
-        estadoInformeComboBox.setValue("TODAS");
-    }
-
     private void setupButtonActions() {
         buscarButton.setOnAction(event -> handleBuscar());
         añadirButton.setOnAction(event -> handleAñadir());
         editarButton.setOnAction(event -> handleEditar());
         eliminarButton.setOnAction(event -> handleEliminar());
-        generarInformeButton.setOnAction(event -> handleGenerarInforme());
     }
 
     private void loadReservasData() {
@@ -257,51 +231,6 @@ public class ReservasController implements Initializable {
     }
 
     /**
-     * Genera el informe de Reservas por Estado en PDF y lo abre con el visor del sistema
-     */
-    private void handleGenerarInforme() {
-        String estadoSeleccionado = estadoInformeComboBox.getValue();
-        if (estadoSeleccionado == null || estadoSeleccionado.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Selección requerida",
-                    "Por favor, selecciona un estado para el informe.");
-            return;
-        }
-
-        System.out.println("=== Iniciando generación de Informe de Reservas ===");
-        System.out.println("Estado seleccionado: " + estadoSeleccionado);
-
-        try {
-            ReportGenerator reportGenerator = new ReportGenerator();
-            String pdfPath = reportGenerator.generarInformeReservasPDF(estadoSeleccionado);
-
-            System.out.println("Informe generado en: " + pdfPath);
-
-            // Abrir con visor del sistema
-            reportGenerator.abrirPDFConVisorSistema(pdfPath);
-
-            showAlert(Alert.AlertType.INFORMATION, "Informe generado",
-                    "El informe se ha generado correctamente.\nArchivo: " + pdfPath);
-
-        } catch (JRException e) {
-            System.err.println("=== ERROR JasperReports ===");
-            System.err.println("Mensaje: " + e.getMessage());
-            if (e.getCause() != null) {
-                System.err.println("Causa: " + e.getCause().getMessage());
-            }
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error al generar informe",
-                    "No se pudo generar el informe de reservas.\n\nDetalle: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("=== ERROR inesperado ===");
-            System.err.println("Tipo: " + e.getClass().getName());
-            System.err.println("Mensaje: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Error inesperado: " + e.getMessage());
-        }
-    }
-
-    /**
      * Aplica restricciones de acceso a los botones CRUD según el rol del usuario.
      * - Admin: Acceso completo (añadir, editar, eliminar cualquier reserva)
      * - Guía: Solo lectura (ve todas las reservas pero no puede modificarlas)
@@ -321,22 +250,10 @@ public class ReservasController implements Initializable {
             eliminarButton.setVisible(false);
             eliminarButton.setManaged(false);
 
-            // Ocultar generación de informes para guías
-            estadoInformeComboBox.setVisible(false);
-            estadoInformeComboBox.setManaged(false);
-            generarInformeButton.setVisible(false);
-            generarInformeButton.setManaged(false);
-
             System.out.println("Restricciones aplicadas en Reservas: Solo lectura para rol guia");
         } else if (session.isCliente()) {
             // Cliente: puede gestionar sus propias reservas
             // Los botones se mantienen visibles ya que solo ve sus reservas
-
-            // Ocultar generación de informes para clientes
-            estadoInformeComboBox.setVisible(false);
-            estadoInformeComboBox.setManaged(false);
-            generarInformeButton.setVisible(false);
-            generarInformeButton.setManaged(false);
 
             System.out.println("Restricciones aplicadas en Reservas: Cliente solo ve sus reservas");
         }

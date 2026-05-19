@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="CatalogoExcursiones"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20">
+
+    <queryString>
+        <![CDATA[
+            SELECT
+                e.nombre_ruta,
+                e.zona,
+                e.duracion_horas,
+                e.precio_persona,
+                e.fecha_inicio,
+                e.plazas_disponibles,
+                CONCAT(COALESCE(u.nombre, ''), ' ', COALESCE(u.ap1, '')) as guia
+            FROM EXCURSIONES e
+            LEFT JOIN USUARIOS u ON e.id_guia = u.id_usuario
+            ORDER BY e.zona, e.nombre_ruta
+        ]]>
+    </queryString>
+
+    <field name="nombre_ruta" class="java.lang.String"/>
+    <field name="zona" class="java.lang.String"/>
+    <field name="duracion_horas" class="java.math.BigDecimal"/>
+    <field name="precio_persona" class="java.math.BigDecimal"/>
+    <field name="fecha_inicio" class="java.sql.Date"/>
+    <field name="plazas_disponibles" class="java.lang.Integer"/>
+    <field name="guia" class="java.lang.String"/>
+
+    <variable name="TOTAL" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{nombre_ruta}]]></variableExpression>
+    </variable>
+
+    <!-- Cabecera de columnas con fondo verde corporativo -->
+    <columnHeader>
+        <band height="28">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="28" backcolor="#2E7D32" forecolor="#2E7D32"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="5" y="0" width="120" height="28" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[EXCURSIÓN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="125" y="0" width="80" height="28" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ZONA]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="205" y="0" width="70" height="28" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DURACIÓN]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="275" y="0" width="70" height="28" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PRECIO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="345" y="0" width="80" height="28" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[FECHA]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="425" y="0" width="50" height="28" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PLAZAS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="475" y="0" width="80" height="28" forecolor="#FFFFFF"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[GUÍA]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- Detalle con filas alternas -->
+    <detail>
+        <band height="22">
+            <!-- Fondo verde muy claro para filas pares -->
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="21" backcolor="#F1F8E9" forecolor="#E0E0E0">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+            </rectangle>
+            <line>
+                <reportElement x="0" y="21" width="555" height="1" forecolor="#E0E0E0"/>
+            </line>
+            <textField isBlankWhenNull="true">
+                <reportElement x="5" y="1" width="120" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nombre_ruta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="125" y="1" width="80" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{zona}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#0.0 h" isBlankWhenNull="true">
+                <reportElement x="205" y="1" width="70" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{duracion_horas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="275" y="1" width="70" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precio_persona}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="345" y="1" width="80" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="425" y="1" width="50" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{plazas_disponibles}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="475" y="1" width="80" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{guia}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <!-- Resumen con fondo verde claro -->
+    <summary>
+        <band height="35">
+            <rectangle>
+                <reportElement x="300" y="5" width="255" height="25" backcolor="#E8F5E9" forecolor="#C8E6C9"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="305" y="5" width="160" height="25" forecolor="#2E7D32"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total excursiones:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="470" y="5" width="80" height="25" forecolor="#2E7D32"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TOTAL}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+</jasperReport>
